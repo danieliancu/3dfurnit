@@ -1,0 +1,8 @@
+
+{
+  "name": "3dFurnit.com - Soluții 3D E-commerce",
+  "description": "Transformăm magazinele de mobilă în experiențe interactive. Integrare 1-click pentru vizualizarea produselor 3D direct în casa clientului.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
