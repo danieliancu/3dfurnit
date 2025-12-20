@@ -24,7 +24,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onSelect, lang, onEx
         <img
           src={product.image}
           alt={product.name}
-          className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-110 drop-shadow-xl"
+          className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-110"
+          style={{ mixBlendMode: "multiply" }}
         />
 
         <div className="absolute top-4 left-4">

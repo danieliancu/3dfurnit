@@ -185,7 +185,8 @@ const Catalog: React.FC<CatalogProps> = ({ onSelectProduct, lang }) => {
                 <img
                   src={expandedProduct.image}
                   alt={expandedProduct.name}
-                  className="max-w-full max-h-[75vh] object-contain drop-shadow-2xl"
+                  className="max-w-full max-h-[75vh] object-contain"
+                  style= {{ mixBlendMode:"multiply" }}
                 />
               </div>
               <div className="p-6 text-center">

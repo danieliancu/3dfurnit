@@ -287,7 +287,7 @@ const RoomEditor: React.FC<RoomEditorProps> = ({
   const uploadLabel = hasSceneImage ? t.changePhoto : t.uploadPhoto;
 
   return (
-    <div className="max-w-7xl mx-auto p-4 md:p-8 animate-in fade-in duration-500">
+    <div className="mx-auto p-4 md:p-8 animate-in fade-in duration-500">
       <input type="file" ref={fileInputRef} onChange={handleFileUpload} accept="image/*" className="hidden" />
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
 
@@ -397,12 +397,13 @@ const RoomEditor: React.FC<RoomEditorProps> = ({
                   onClick={() => addProductToRoom(product)}
                   className="relative cursor-pointer rounded-2xl overflow-hidden border-2 transition-all p-2 bg-white flex flex-col items-center justify-between h-40 group border-gray-50 hover:border-indigo-200 hover:shadow-lg active:scale-95"
                 >
-                  <div className="flex-1 w-full flex items-center justify-center overflow-hidden pointer-events-none">
+                  <div className="flex-1 w-full flex items-center justify-center overflow-hidden pointer-events-none bg-gray-100">
                     {product.image ? (
                       <img
                         src={product.image}
                         alt={product.name}
-                        className="max-w-[85%] max-h-[85%] object-contain drop-shadow-sm group-hover:scale-110 transition-transform"
+                        className="max-w-[85%] max-h-[85%] object-contain group-hover:scale-110 transition-transform"
+                        style ={{ mixBlendMode: "multiply" }}
                       />
                     ) : (
                       <Box size={32} className="text-gray-200" />
