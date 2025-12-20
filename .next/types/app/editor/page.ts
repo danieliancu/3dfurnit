@@ -1,4 +1,4 @@
-// File: C:\_work\3dfurnit-original\app\editor\page.tsx
+// File: C:\_work\3dfurnit\app\editor\page.tsx
 import * as entry from '../../../../app/editor/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

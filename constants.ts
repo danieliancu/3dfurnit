@@ -114,14 +114,14 @@ const sharedHome = {
 
 export const TRANSLATIONS = {
   ro: {
-    nav: { home: 'Acasă', features: 'Funcționalități', pricing: 'Prețuri', store: 'Exemplu Website', contact: 'Contact', demo: 'Demo Instant' },
+    nav: { home: 'Acasă', features: 'Funcționalități', pricing: 'Prețuri', store: 'Catalog Produse', contact: 'Contact', demo: 'Demo Instant' },
     home: {
       badge: 'VIITORUL E-COMMERCE-ULUI DE MOBILĂ',
       heroTitle: 'Transformă-ți magazinul într-o ',
       heroTitleGradient: 'experiență imersivă',
       heroSubtitle: '3dFurnit.com oferă soluții ultra-rapide pentru site-urile de mobilă. Clienții tăi pot vizualiza produsele tale direct în casa lor, la dimensiune reală, eliminând orice dubiu înainte de cumpărare.',
       btnTry: 'Testează Demo',
-      btnCatalog: 'Exemplu Website',
+      btnCatalog: 'Catalog Produse',
       stats: { auto: '100% Automatizat', conv: '+40% Conversie', integ: '1-Click Integrare' },
       stepsTitle: 'Cum funcționează?',
       step1Title: 'Integrare 1-Click',
@@ -150,7 +150,7 @@ export const TRANSLATIONS = {
       ]
     },
     catalog: {
-      title: 'Exemplu Website',
+      title: 'Catalog Produse',
       subtitle: 'Alege un produs pentru a experimenta puterea vizualizării 3D în timp real.',
       search: 'Caută în magazin...',
       filters: 'Filtrează',
@@ -164,18 +164,18 @@ export const TRANSLATIONS = {
         dateOld: 'Cele mai vechi'
       }
     },
-    editor: { step1: 'PASUL 1: CAMERA TA', uploadRoom: 'Încarcă poza camerei tale', step2: 'PASUL 2: CATALOGUL TĂU', uploadGlb: 'Încarcă GLB', visualize: 'Vizualizează', studioTitle: '3dFurnit Studio', studioDesc: 'Control manual 3D', loading3d: 'Se încarcă...', rotationActive: 'Rotire activă', addToCart: 'Adaugă în Coș', customProduct: 'Produs Personalizat', dimensions: 'Dimensiuni' },
+    editor: { step1: 'PASUL 1: CAMERA TA', uploadRoom: 'Încarcă poza camerei tale', step2: 'PASUL 2: CATALOGUL TĂU', catalogTitle: 'Catalogul tău', inventory: 'Listă produse', uploadPhoto: 'Încarcă foto', changePhoto: 'Schimbă foto', uploadGlb: 'Încarcă GLB', visualize: 'Vizualizează', studioTitle: '3dFurnit Studio', studioDesc: 'Control manual 3D', loading3d: 'Se încarcă...', rotationActive: 'Rotire activă', addToCart: 'Adaugă în Coș', customProduct: 'Produs Personalizat', dimensions: 'Dimensiuni' },
     common: { price: 'Preț', buyNow: 'Cumpără acum', getStarted: 'Începe acum', contactUs: 'Contactează-ne' }
   },
   en: {
-    nav: { home: 'Home', features: 'Features', pricing: 'Pricing', store: 'Website Example', contact: 'Contact', demo: 'Instant Demo' },
+    nav: { home: 'Home', features: 'Features', pricing: 'Pricing', store: 'Product Catalog', contact: 'Contact', demo: 'Instant Demo' },
     home: {
       badge: 'THE FUTURE OF FURNITURE E-COMMERCE',
       heroTitle: 'Transform your store into an ',
       heroTitleGradient: 'immersive experience',
       heroSubtitle: '3dFurnit.com provides ultra-fast solutions. Your customers can visualize products in their home, at real scale, removing all doubts.',
       btnTry: 'Test Demo',
-      btnCatalog: 'Website Example',
+      btnCatalog: 'Product Catalog',
       stats: { auto: '100% Automated', conv: '+40% Conversion', integ: '1-Click Integration' },
       stepsTitle: 'How it works?',
       step1Title: '1-Click Integration',
@@ -204,7 +204,7 @@ export const TRANSLATIONS = {
       ]
     },
     catalog: {
-      title: 'Website Example',
+      title: 'Product Catalog',
       subtitle: 'Experience real-time 3D visualization.',
       search: 'Search...',
       filters: 'Filter',
@@ -218,18 +218,18 @@ export const TRANSLATIONS = {
         dateOld: 'Oldest'
       }
     },
-    editor: { step1: 'STEP 1: ROOM', uploadRoom: 'Upload room photo', step2: 'STEP 2: CATALOG', uploadGlb: 'Upload GLB', visualize: 'Visualize', studioTitle: '3dFurnit Studio', studioDesc: 'Manual 3D Control', loading3d: 'Loading...', rotationActive: 'Rotation active', addToCart: 'Add to Cart', customProduct: 'Custom Product', dimensions: 'Dimensions' },
+    editor: { step1: 'STEP 1: ROOM', uploadRoom: 'Upload room photo', step2: 'STEP 2: CATALOG', catalogTitle: 'Catalog', inventory: 'Listă produse', uploadPhoto: 'Upload photo', changePhoto: 'Change photo', uploadGlb: 'Upload GLB', visualize: 'Visualize', studioTitle: '3dFurnit Studio', studioDesc: 'Manual 3D Control', loading3d: 'Loading...', rotationActive: 'Rotation active', addToCart: 'Add to Cart', customProduct: 'Custom Product', dimensions: 'Dimensions' },
     common: { price: 'Price', buyNow: 'Buy now', getStarted: 'Get started', contactUs: 'Contact Us' }
   },
   fr: {
-    nav: { home: 'Accueil', features: 'Fonctionnalités', pricing: 'Prix', store: 'Exemple Site', contact: 'Contact', demo: 'Démo Instantanée' },
+    nav: { home: 'Accueil', features: 'Fonctionnalités', pricing: 'Prix', store: 'Catalogue Produits', contact: 'Contact', demo: 'Démo Instantanée' },
     home: {
       badge: "L'AVENIR DU E-COMMERCE DE MEUBLES",
       heroTitle: 'Transformez votre magasin en une ',
       heroTitleGradient: 'expérience immersive',
       heroSubtitle: '3dFurnit.com propose des solutions ultra-rapides. Vos clients visualisent les produits chez eux, à l’échelle réelle.',
       btnTry: 'Tester la Démo',
-      btnCatalog: 'Exemple de Site',
+      btnCatalog: 'Catalogue Produits',
       stats: { auto: '100% Automatisé', conv: '+40% Conversion', integ: 'Intégration 1-Click' },
       stepsTitle: 'Comment ça marche?',
       step1Title: 'Intégration 1-Click',
@@ -258,7 +258,7 @@ export const TRANSLATIONS = {
       ]
     },
     catalog: {
-      title: 'Exemple Site',
+      title: 'Catalogue Produits',
       subtitle: 'Découvrez la visualisation 3D en temps réel.',
       search: 'Chercher...',
       filters: 'Filtres',
@@ -272,18 +272,18 @@ export const TRANSLATIONS = {
         dateOld: 'Plus anciens'
       }
     },
-    editor: { step1: 'ÉTAPE 1: PIÈCE', uploadRoom: 'Charger photo de pièce', step2: 'ÉTAPE 2: CATALOGUE', uploadGlb: 'Charger GLB', visualize: 'Visualiser', studioTitle: '3dFurnit Studio', studioDesc: 'Contrôle 3D Manuel', loading3d: 'Chargement...', rotationActive: 'Rotation active', addToCart: 'Ajouter au Panier', customProduct: 'Produit Personnalisé', dimensions: 'Dimensions' },
+    editor: { step1: 'ÉTAPE 1: PIÈCE', uploadRoom: 'Charger photo de pièce', step2: 'ÉTAPE 2: CATALOGUE', catalogTitle: 'Catalogue', inventory: 'Listă produse', uploadPhoto: 'Téléverser photo', changePhoto: 'Changer la photo', uploadGlb: 'Charger GLB', visualize: 'Visualiser', studioTitle: '3dFurnit Studio', studioDesc: 'Contrôle 3D Manuel', loading3d: 'Chargement...', rotationActive: 'Rotation active', addToCart: 'Ajouter au Panier', customProduct: 'Produit Personnalisé', dimensions: 'Dimensions' },
     common: { price: 'Prix', buyNow: 'Acheter', getStarted: 'Démarrer', contactUs: 'Contactez-nous' }
   },
   de: {
-    nav: { home: 'Startseite', features: 'Funktionen', pricing: 'Preise', store: 'Beispiel-Website', contact: 'Kontakt', demo: 'Sofort-Demo' },
+    nav: { home: 'Startseite', features: 'Funktionen', pricing: 'Preise', store: 'Produktkatalog', contact: 'Kontakt', demo: 'Sofort-Demo' },
     home: {
       badge: 'DIE ZUKUNFT DES MÖBEL-E-COMMERCE',
       heroTitle: 'Verwandeln Sie Ihren Shop in ein ',
       heroTitleGradient: 'immersives Erlebnis',
       heroSubtitle: '3dFurnit.com bietet ultraschnelle Lösungen. Ihre Kunden visualisieren Produkte direkt in ihrem Zuhause, in echter Größe.',
       btnTry: 'Demo testen',
-      btnCatalog: 'Beispiel-Website',
+      btnCatalog: 'Produktkatalog',
       stats: { auto: '100% Automatisiert', conv: '+40% Konversion', integ: '1-Klick Integration' },
       stepsTitle: 'Wie es funktioniert?',
       step1Title: '1-Klick Integration',
@@ -312,7 +312,7 @@ export const TRANSLATIONS = {
       ]
     },
     catalog: {
-      title: 'Beispiel-Website',
+      title: 'Produktkatalog',
       subtitle: 'Erleben Sie 3D-Visualisierung in Echtzeit.',
       search: 'Suche...',
       filters: 'Filter',
@@ -326,18 +326,18 @@ export const TRANSLATIONS = {
         dateOld: 'Älteste'
       }
     },
-    editor: { step1: 'SCHRITT 1: RAUM', uploadRoom: 'Raumfoto hochladen', step2: 'SCHRITT 2: KATALOG', uploadGlb: 'GLB hochladen', visualize: 'Visualisieren', studioTitle: '3dFurnit Studio', studioDesc: 'Manuelle 3D-Steuerung', loading3d: 'Laden...', rotationActive: 'Drehung aktiv', addToCart: 'In den Warenkorb', customProduct: 'Individuelles Produkt', dimensions: 'Maße' },
+    editor: { step1: 'SCHRITT 1: RAUM', uploadRoom: 'Raumfoto hochladen', step2: 'SCHRITT 2: KATALOG', catalogTitle: 'Katalog', inventory: 'Listă produse', uploadPhoto: 'Foto hochladen', changePhoto: 'Foto ändern', uploadGlb: 'GLB hochladen', visualize: 'Visualisieren', studioTitle: '3dFurnit Studio', studioDesc: 'Manuelle 3D-Steuerung', loading3d: 'Laden...', rotationActive: 'Drehung aktiv', addToCart: 'In den Warenkorb', customProduct: 'Individuelles Produkt', dimensions: 'Maße' },
     common: { price: 'Preis', buyNow: 'Jetzt kaufen', getStarted: 'Jetzt starten', contactUs: 'Kontaktieren Sie uns' }
   },
   es: {
-    nav: { home: 'Inicio', features: 'Funcionalidades', pricing: 'Precios', store: 'Ejemplo Web', contact: 'Contacto', demo: 'Demo Instantánea' },
+    nav: { home: 'Inicio', features: 'Funcionalidades', pricing: 'Precios', store: 'Catálogo de productos', contact: 'Contacto', demo: 'Demo Instantánea' },
     home: {
       badge: 'EL FUTURO DEL E-COMMERCE DE MUEBLES',
       heroTitle: 'Transforma tu tienda en una ',
       heroTitleGradient: 'experiencia inmersiva',
       heroSubtitle: '3dFurnit.com ofrece soluciones ultra rápidas. Tus clientes visualizan los productos en su hogar, a escala real.',
       btnTry: 'Probar Demo',
-      btnCatalog: 'Ejemplo de Web',
+      btnCatalog: 'Catálogo de productos',
       stats: { auto: '100% Automatizado', conv: '+40% Conversión', integ: 'Integración 1-Click' },
       stepsTitle: '¿Cómo funciona?',
       step1Title: 'Integración 1-Click',
@@ -366,7 +366,7 @@ export const TRANSLATIONS = {
       ]
     },
     catalog: {
-      title: 'Ejemplo Web',
+      title: 'Catálogo de productos',
       subtitle: 'Experimenta la visualización 3D en tiempo real.',
       search: 'Buscar...',
       filters: 'Filtros',
@@ -380,7 +380,7 @@ export const TRANSLATIONS = {
         dateOld: 'Más antiguos'
       }
     },
-    editor: { step1: 'PASO 1: HABITACIÓN', uploadRoom: 'Subir foto de habitación', step2: 'PASO 2: CATÁLOGO', uploadGlb: 'Subir GLB', visualize: 'Visualizar', studioTitle: '3dFurnit Studio', studioDesc: 'Control 3D Manual', loading3d: 'Cargando...', rotationActive: 'Rotación activa', addToCart: 'Añadir al Carrito', customProduct: 'Producto Personalizado', dimensions: 'Dimensiones' },
+    editor: { step1: 'PASO 1: HABITACIÓN', uploadRoom: 'Subir foto de habitación', step2: 'PASO 2: CATÁLOGO', catalogTitle: 'Catálogo', inventory: 'Listă produse', uploadPhoto: 'Subir foto', changePhoto: 'Cambiar foto', uploadGlb: 'Subir GLB', visualize: 'Visualizar', studioTitle: '3dFurnit Studio', studioDesc: 'Control 3D Manual', loading3d: 'Cargando...', rotationActive: 'Rotación activa', addToCart: 'Añadir al Carrito', customProduct: 'Producto Personalizado', dimensions: 'Dimensiones' },
     common: { price: 'Precio', buyNow: 'Comprar ahora', getStarted: 'Empezar ahora', contactUs: 'Contáctanos' }
   }
 };

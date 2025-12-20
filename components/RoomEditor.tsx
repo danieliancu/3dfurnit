@@ -7,7 +7,6 @@ import { TRANSLATIONS } from '../constants';
 import {
   Upload,
   Image as ImageIcon,
-  Trash2,
   Maximize2,
   ShoppingCart,
   X,
@@ -285,56 +284,21 @@ const RoomEditor: React.FC<RoomEditorProps> = ({
   const activeProduct = state.placedProducts.find(p => p.instanceId === state.activeInstanceId);
   const hasSceneImage = !!state.roomImage;
   const isEmptyState = !state.roomImage && state.placedProducts.length === 0;
+  const uploadLabel = hasSceneImage ? t.changePhoto : t.uploadPhoto;
 
   return (
     <div className="max-w-7xl mx-auto p-4 md:p-8 animate-in fade-in duration-500">
+      <input type="file" ref={fileInputRef} onChange={handleFileUpload} accept="image/*" className="hidden" />
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
 
         {/* Panou Control Lateral */}
         <div className="lg:col-span-4 space-y-6">
-          {/* Sursa Foto */}
-          <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
-            <h2 className="text-xs font-black text-indigo-600 mb-4 flex items-center gap-2 uppercase tracking-[0.2em]">
-              {t.step1}
-            </h2>
-
-            <input type="file" ref={fileInputRef} onChange={handleFileUpload} accept="image/*" className="hidden" />
-
-            {!state.roomImage ? (
-              <div
-                onClick={() => fileInputRef.current?.click()}
-                className="border-2 border-dashed border-gray-100 rounded-2xl p-10 text-center cursor-pointer hover:border-indigo-400 hover:bg-indigo-50/30 transition-all group"
-              >
-                <Upload className="mx-auto w-10 h-10 text-indigo-100 group-hover:text-indigo-400 mb-3" />
-                <p className="text-sm font-bold text-gray-700">{t.uploadRoom}</p>
-              </div>
-            ) : (
-              <div className="relative group rounded-2xl overflow-hidden shadow-inner border border-gray-100 bg-gray-50">
-                <img src={state.roomImage} className="w-full h-32 object-cover opacity-90" alt="Camera" />
-                <div className="absolute inset-0 bg-black/40 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <button
-                    onClick={() => fileInputRef.current?.click()}
-                    className="bg-white p-3 rounded-2xl text-indigo-600 shadow-xl hover:scale-110 transition-transform flex items-center gap-2 text-[10px] font-black uppercase tracking-widest"
-                  >
-                    <RefreshCw size={14} /> Schimbă Foto
-                  </button>
-                  <button
-                    onClick={() => setState(prev => ({ ...prev, roomImage: null, activeInstanceId: null }))}
-                    className="bg-white p-3 rounded-2xl text-red-500 shadow-xl hover:scale-110 transition-transform"
-                  >
-                    <Trash2 size={16} />
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-
           {/* Inventar Scenă */}
           {state.placedProducts.length > 0 && (
             <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 animate-in slide-in-from-left duration-500">
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-xs font-black text-indigo-600 flex items-center gap-2 uppercase tracking-[0.2em]">
-                  <Layers size={14} /> Obiecte în Scenă
+                  <Layers size={14} /> {t.inventory}
                 </h2>
                 <div className="bg-indigo-50 text-indigo-600 px-3 py-1 rounded-lg text-[10px] font-black uppercase">
                   Total: {totalPrice} lei
@@ -412,7 +376,7 @@ const RoomEditor: React.FC<RoomEditorProps> = ({
           {/* Catalog Produse */}
           <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 flex flex-col h-[500px]">
             <h2 className="text-xs font-black text-indigo-600 mb-4 flex items-center gap-2 uppercase tracking-[0.2em]">
-              {t.step2}
+              {t.catalogTitle}
             </h2>
 
             <div className="relative mb-4">
@@ -462,8 +426,8 @@ const RoomEditor: React.FC<RoomEditorProps> = ({
 
         {/* Zona de Afișare Centrală */}
         <div className="lg:col-span-8 flex flex-col h-auto">
-          <div className="bg-white rounded-[3rem] shadow-2xl border border-gray-100 overflow-hidden flex flex-col">
-            <div className="px-8 pt-8 border-b border-gray-50 flex items-center justify-between bg-white/90 backdrop-blur-lg">
+          <div className="bg-white flex flex-col">
+            <div className="px-8 pt-8 border-b border-gray-50 bg-white/90 backdrop-blur-lg flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center">
                   <Armchair className="text-indigo-600" size={24} />
@@ -474,6 +438,12 @@ const RoomEditor: React.FC<RoomEditorProps> = ({
                 </div>
               </div>
               <div className="flex items-center gap-3">
+                <button
+                  onClick={() => fileInputRef.current?.click()}
+                  className="text-[10px] font-black text-indigo-600 bg-indigo-50 px-3 py-2 rounded-xl uppercase tracking-widest hover:bg-indigo-100 active:scale-95 transition-all flex items-center gap-2"
+                >
+                  {hasSceneImage ? <RefreshCw size={14} /> : <Upload size={14} />} {uploadLabel}
+                </button>
                 <button
                   onClick={handleResetScene}
                   className="text-[10px] font-black text-indigo-600 bg-indigo-50 px-3 py-2 rounded-xl uppercase tracking-widest hover:bg-indigo-100 active:scale-95 transition-all"
@@ -491,16 +461,16 @@ const RoomEditor: React.FC<RoomEditorProps> = ({
 
             <div
               ref={containerRef}
-              className={`relative bg-gray-50/50 flex ${hasSceneImage ? 'items-start' : 'items-center'} justify-center overflow-hidden min-h-[380px] md:min-h-[520px]`}
+              className={`relative flex ${hasSceneImage ? 'items-start' : 'items-center'} justify-center overflow-hidden min-h-[380px] md:min-h-[520px]`}
               onClick={() => setState(prev => ({ ...prev, activeInstanceId: null }))}
             >
-              <div className={`relative w-full flex ${hasSceneImage ? 'items-start' : 'items-center'} justify-center p-6 md:p-8`}>
+              <div className={`relative w-full flex ${hasSceneImage ? 'items-start' : 'items-center'} justify-center pt-6 md:p-8`}>
                 {!state.roomImage ? (
                   <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: 'radial-gradient(#6366f1 1.5px, transparent 1.5px)', backgroundSize: '32px 32px' }}></div>
                 ) : (
                   <img
                     src={state.roomImage}
-                    className="max-w-full max-h-full object-contain rounded-[2rem] shadow-2xl pointer-events-none select-none"
+                    className="max-w-full max-h-full object-contain pointer-events-none select-none"
                     alt="Background"
                   />
                 )}
