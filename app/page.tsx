@@ -290,63 +290,116 @@ export default function Home() {
                             {/* Radial layout for desktop */}
                             <div className="hidden md:block">
                                 <div className="relative max-w-5xl mx-auto aspect-square">
-                                    <div className="absolute inset-12 rounded-full border border-dashed border-white/15"></div>
-                                    <div className="absolute inset-24 rounded-full border border-white/10"></div>
+                                    {/* Background decorative elements */}
+                                    <div className="absolute inset-4 rounded-full border border-indigo-500/5 animate-[pulse_4s_infinite]"></div>
+                                    <div className="absolute inset-12 rounded-full border border-dashed border-white/5"></div>
+                                    <div className="absolute inset-24 rounded-full border border-white/5"></div>
 
-                                    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-indigo-800/60 backdrop-blur-xl rounded-full w-44 h-44 shadow-2xl border border-indigo-500/40 flex flex-col items-center justify-center gap-3">
-                                        <Armchair className="text-indigo-200" size={44} />
-                                        <p className="text-[13px] font-black uppercase tracking-[0.25em] text-white">3dFurnit</p>
+                                    {/* Central Hub with Pulse */}
+                                    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
+                                        <div className="relative">
+                                            <div className="absolute inset-0 bg-indigo-500/20 blur-2xl rounded-full animate-pulse"></div>
+                                            <div className="relative bg-indigo-600/40 backdrop-blur-2xl rounded-full w-44 h-44 shadow-[0_0_50px_rgba(99,102,241,0.3)] border border-indigo-400/30 flex flex-col items-center justify-center gap-3 transition-transform hover:scale-105 duration-700">
+                                                <div className="relative">
+                                                    <Armchair className="text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.5)]" size={48} />
+                                                    <div className="absolute -top-1 -right-1 w-3 h-3 bg-indigo-400 rounded-full animate-ping"></div>
+                                                </div>
+                                                <p className="text-[14px] font-black uppercase tracking-[0.3em] text-white">3dFurnit</p>
+                                            </div>
+                                        </div>
                                     </div>
 
-                                    {positionedProviders.map((p) => (
-                                        <React.Fragment key={p.id}>
-                                            <div
-                                                className="absolute left-1/2 top-1/2 origin-top"
-                                                style={{ transform: `rotate(${p.angle}deg) translateY(-6%)` }}
-                                            >
-                                                <div className="relative h-[34%] w-[2px]">
-                                                    <div className="absolute inset-0 bg-gradient-to-b from-indigo-300/70 via-indigo-400/80 to-indigo-500/80"></div>
-                                                    <div className="absolute -bottom-2 left-1/2 -translate-x-1/2">
-                                                        <div className="w-3 h-3 rotate-45 bg-indigo-400 shadow-[0_0_0_4px_rgba(99,102,241,0.2)]"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                    {/* SVG Arrows Layer */}
+                                    <svg className="absolute inset-0 w-full h-full pointer-events-none z-10" viewBox="0 0 100 100">
+                                        <defs>
+                                            <linearGradient id="arrowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                                <stop offset="0%" stopColor="transparent" />
+                                                <stop offset="50%" stopColor="rgba(129, 140, 248, 0.5)" />
+                                                <stop offset="100%" stopColor="rgba(129, 140, 248, 0.8)" />
+                                            </linearGradient>
+                                        </defs>
+                                        {positionedProviders.map((p, idx) => {
+                                            // Calculate path from node to center
+                                            const x1 = p.left;
+                                            const y1 = p.top;
+                                            const x2 = 50;
+                                            const y2 = 50;
 
-                                            <div
-                                                className="absolute w-48 bg-white/5 border border-white/10 shadow-2xl rounded-2xl p-4 flex flex-col gap-2 backdrop-blur-xl"
-                                                style={{ top: `${p.top}%`, left: `${p.left}%`, transform: 'translate(-50%,-50%)' }}
-                                            >
-                                                <div className="flex items-center gap-3">
-                                                    <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/10 flex items-center justify-center overflow-hidden">
-                                                        <img src={p.logo} alt={`${p.name} logo`} className="w-full h-full object-contain" />
-                                                    </div>
-                                                    <div>
-                                                        <p className="text-xs font-black text-white uppercase tracking-tight leading-tight">{p.name}</p>
-                                                        <p className="text-[10px] font-bold text-indigo-200 uppercase tracking-[0.15em]">{p.tagline}</p>
+                                            return (
+                                                <g key={`arrow-${p.id}`}>
+                                                    <path
+                                                        d={`M ${x1} ${y1} L ${x2} ${y2}`}
+                                                        stroke="rgba(129, 140, 248, 0.15)"
+                                                        strokeWidth="0.5"
+                                                        fill="none"
+                                                    />
+                                                    <circle r="0.4" fill="#818cf8">
+                                                        <animateMotion
+                                                            dur={`${2 + Math.random() * 2}s`}
+                                                            repeatCount="indefinite"
+                                                            path={`M ${x1} ${y1} L ${x2} ${y2}`}
+                                                            begin={`${idx * 0.4}s`}
+                                                        />
+                                                    </circle>
+                                                </g>
+                                            );
+                                        })}
+                                    </svg>
+
+                                    {/* Platform Nodes */}
+                                    {positionedProviders.map((p) => (
+                                        <div
+                                            key={p.id}
+                                            className="absolute group z-20"
+                                            style={{ top: `${p.top}%`, left: `${p.left}%`, transform: 'translate(-50%,-50%)' }}
+                                        >
+                                            <div className="relative flex flex-col items-center">
+                                                {/* Logo Container */}
+                                                <div className="w-14 h-14 rounded-2xl bg-slate-900/80 border border-white/10 flex items-center justify-center p-2.5 shadow-2xl transition-all duration-500 group-hover:scale-110 group-hover:border-indigo-400/50 backdrop-blur-md">
+                                                    <img src={p.logo} alt={`${p.name} logo`} className="w-full h-full object-contain filter brightness-110" />
+                                                </div>
+
+                                                {/* Tooltip-style info */}
+                                                <div className="absolute top-16 left-1/2 -translate-x-1/2 w-56 opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none translate-y-2 group-hover:translate-y-0">
+                                                    <div className="bg-slate-900/95 border border-indigo-500/30 rounded-2xl p-4 shadow-[0_0_30px_rgba(0,0,0,0.5)] backdrop-blur-xl text-center">
+                                                        <p className="text-sm font-black text-white uppercase tracking-tight mb-1">{p.name}</p>
+                                                        <p className="text-[11px] font-bold text-indigo-300 uppercase tracking-widest leading-normal mb-2">{p.tagline}</p>
+                                                        <p className="text-[12px] text-white/80 leading-relaxed font-medium">{p.tech}</p>
                                                     </div>
                                                 </div>
-                                                <p className="text-[11px] text-white/70 leading-snug">{p.tech}</p>
+
+                                                {/* Static label for always-on visibility */}
+                                                <p className="mt-4 text-[13px] font-black text-white uppercase tracking-[0.25em] group-hover:text-indigo-400 transition-colors duration-300 drop-shadow-md">
+                                                    {p.name}
+                                                </p>
                                             </div>
-                                        </React.Fragment>
+                                        </div>
                                     ))}
                                 </div>
                             </div>
 
                             {/* Mobile / tablet stacked list */}
-                            <div className="md:hidden space-y-4">
+                            <div className="md:hidden mt-12 space-y-6">
                                 {integration.providers.map((p) => (
-                                    <div key={p.id} className="bg-white/5 rounded-2xl border border-white/10 shadow-xl p-4 flex gap-3 backdrop-blur-xl">
-                                        <div className="w-12 h-12 rounded-xl bg-white/10 border border-white/10 flex items-center justify-center overflow-hidden shrink-0">
-                                            <img src={p.logo} alt={`${p.name} logo`} className="w-full h-full object-contain" />
-                                        </div>
-                                        <div className="flex-1">
-                                            <p className="text-sm font-black text-white uppercase tracking-tight leading-tight">{p.name}</p>
-                                            <p className="text-[10px] font-bold text-indigo-200 uppercase tracking-[0.15em]">{p.tagline}</p>
-                                            <p className="text-[12px] text-white/80 leading-snug mt-2">{p.tech}</p>
+                                    <div key={p.id} className="relative group">
+                                        <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/10 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                        <div className="relative bg-white/5 rounded-2xl border border-white/10 p-6 flex gap-4 backdrop-blur-xl items-center">
+                                            <div className="w-16 h-16 rounded-xl bg-slate-900/50 border border-white/10 flex items-center justify-center p-3 shrink-0 shadow-lg">
+                                                <img src={p.logo} alt={`${p.name} logo`} className="w-full h-full object-contain" />
+                                            </div>
+                                            <div className="flex-1">
+                                                <div className="flex items-center justify-between mb-1">
+                                                    <p className="text-lg font-black text-white uppercase tracking-tight">{p.name}</p>
+                                                    <ArrowRight size={18} className="text-indigo-400 opacity-50" />
+                                                </div>
+                                                <p className="text-[11px] font-bold text-indigo-300 uppercase tracking-[0.15em] mb-2">{p.tagline}</p>
+                                                <p className="text-[14px] text-white/80 leading-normal font-medium">{p.tech}</p>
+                                            </div>
                                         </div>
                                     </div>
                                 ))}
                             </div>
+
                         </div>
                     </div>
 

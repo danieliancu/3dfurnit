@@ -212,6 +212,7 @@ const RoomEditor: React.FC<RoomEditorProps> = ({
 
   const [dragMode, setDragMode] = React.useState<'none' | 'move' | 'scale'>('none');
   const [searchTerm, setSearchTerm] = React.useState('');
+  const [activeCategory, setActiveCategory] = React.useState<string>('all');
   const [isMobilePanelOpen, setIsMobilePanelOpen] = React.useState(false);
   const [cartModalProduct, setCartModalProduct] = React.useState<Product | null>(null);
   const dragStart = useRef<DragStart | null>(null);
@@ -220,12 +221,23 @@ const RoomEditor: React.FC<RoomEditorProps> = ({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const processedProductRef = useRef<string | null>(null);
 
+  const categories = [
+    { id: 'all', label: lang === 'ro' ? 'Toate' : 'All' },
+    { id: 'beds', label: lang === 'ro' ? 'Paturi' : 'Beds' },
+    { id: 'chairs', label: lang === 'ro' ? 'Scaune' : 'Chairs' },
+    { id: 'lamps', label: lang === 'ro' ? 'Lămpi' : 'Lamps' },
+    { id: 'cabinets', label: lang === 'ro' ? 'Dulapuri' : 'Cabinets' },
+    { id: 'tables', label: lang === 'ro' ? 'Mese' : 'Tables' },
+  ];
+
   const filteredCatalog = useMemo(() => {
-    return availableProducts.filter(p =>
-      p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      p.category.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  }, [availableProducts, searchTerm]);
+    return availableProducts.filter(p => {
+      const matchesSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        p.category.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesCategory = activeCategory === 'all' || p.category === activeCategory;
+      return matchesSearch && matchesCategory;
+    });
+  }, [availableProducts, searchTerm, activeCategory]);
 
   const groupedProducts = useMemo(() => {
     return state.placedProducts.reduce((acc, curr) => {
@@ -435,9 +447,6 @@ const RoomEditor: React.FC<RoomEditorProps> = ({
   const SidePanel = (
     <div className="space-y-6 lg:h-[80vh] lg:min-h-[80vh] lg:max-h-[80vh] lg:pr-1 lg:flex lg:flex-col lg:overflow-hidden">
       <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 flex flex-col lg:flex-[3] lg:min-h-0 overflow-hidden">
-        <h2 className="text-xs font-black text-indigo-600 mb-4 flex items-center gap-2 uppercase tracking-[0.2em]">
-          {t.catalogTitle}
-        </h2>
         <div className="relative mb-4">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
           <input
@@ -448,6 +457,23 @@ const RoomEditor: React.FC<RoomEditorProps> = ({
             className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-100 rounded-2xl text-xs font-bold focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
           />
         </div>
+
+        {/* Categories Menu */}
+        <div className="flex gap-2 overflow-x-auto pb-4 mb-4 no-scrollbar -mx-2 px-2 shrink-0">
+          {categories.map(cat => (
+            <button
+              key={cat.id}
+              onClick={() => setActiveCategory(cat.id)}
+              className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest whitespace-nowrap transition-all border-2 shrink-0 ${activeCategory === cat.id
+                ? 'bg-indigo-600 border-indigo-600 text-white shadow-md'
+                : 'bg-white text-gray-400 border-gray-50 hover:border-indigo-100 hover:text-indigo-600'
+                }`}
+            >
+              {cat.label}
+            </button>
+          ))}
+        </div>
+
         <div className="flex flex-nowrap gap-4 overflow-x-auto pr-2 custom-scrollbar flex-1 content-start p-2 snap-x snap-mandatory lg:grid lg:grid-cols-2 lg:gap-x-4 lg:gap-y-8 lg:overflow-y-auto lg:overflow-x-hidden lg:max-h-full">
           {filteredCatalog.map(product => (
             <div
