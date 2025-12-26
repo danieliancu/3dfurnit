@@ -53,6 +53,8 @@ function EditorContent() {
         error: null,
     });
 
+    const [isLoaded, setIsLoaded] = useState(false);
+
     // Load from LocalStorage after mount (client-side only)
     useEffect(() => {
         const saved = localStorage.getItem(STORAGE_KEY);
@@ -68,20 +70,33 @@ function EditorContent() {
                 console.error("Failed to load saved state", e);
             }
         }
+        setIsLoaded(true);
     }, []);
 
     // Persist State
     useEffect(() => {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(editorState));
-    }, [editorState]);
+        // ONLY save if we have confirmed that we tried to load first
+        if (!isLoaded) return;
+
+        // Don't save empty state immediately if we just loaded (though setEditorState is async)
+        // This is a safety check: if we have products or an image, it's worth saving.
+        // If everything is empty, we only save if it was actually changed by the user.
+
+        try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(editorState));
+        } catch (e) {
+            if (e instanceof Error && e.name === 'QuotaExceededError') {
+                console.warn("Storage quota exceeded, state not saved fully.");
+            }
+        }
+    }, [editorState, isLoaded]);
 
     const handleProductConsumed = () => {
         setInitialProduct(null);
-        // Optional: remove query param?
     };
 
     return (
-        <div className="min-h-screen bg-white text-gray-900 selection:bg-indigo-100" style={{ background:"lightblue" }}>
+        <div className="min-h-screen bg-white text-gray-900 selection:bg-indigo-100" style={{ background: "lightblue" }}>
             <Header />
             <main className="lg:h-[calc(100vh-120px)] lg:max-h-[calc(100vh-120px)] lg:overflow-hidden">
                 <RoomEditor

@@ -53,6 +53,152 @@ interface DragStart {
   startDist: number;
 }
 
+const ProductInstance: React.FC<{
+  placed: PlacedProduct;
+  isActive: boolean;
+  onSelect: (id: string) => void;
+  onRemove: (id: string) => void;
+  onMouseDown: (e: React.MouseEvent, id: string, mode: 'move' | 'scale') => void;
+  onCameraChange: (instanceId: string, orbit: string) => void;
+  lang: Language;
+}> = ({ placed, isActive, onSelect, onRemove, onMouseDown, onCameraChange, lang }) => {
+  const t = TRANSLATIONS[lang].editor;
+  const mvRef = useRef<any>(null);
+  const invScale = 1 / Math.max(0.01, placed.scale);
+
+  // Use a ref for the camera change callback to avoid closure staleness in the event listener
+  const onCameraChangeRef = useRef(onCameraChange);
+  useEffect(() => {
+    onCameraChangeRef.current = onCameraChange;
+  }, [onCameraChange]);
+
+  useEffect(() => {
+    const mv = mvRef.current;
+    if (!mv) return;
+
+    const handleCameraChange = () => {
+      const orbit = mv.getCameraOrbit();
+      const orbitString = `${orbit.theta}rad ${orbit.phi}rad ${orbit.radius}m`;
+      onCameraChangeRef.current(placed.instanceId, orbitString);
+    };
+
+    mv.addEventListener('camera-change', handleCameraChange);
+    return () => mv.removeEventListener('camera-change', handleCameraChange);
+  }, [placed.instanceId]);
+
+  return (
+    <div
+      className={`absolute ${isActive ? 'z-50' : 'z-40'}`}
+      style={{
+        left: `${placed.position.x}%`,
+        top: `${placed.position.y}%`,
+        transform: `translate(-50%, -50%) scale(${placed.scale})`,
+        width: '400px',
+        height: '400px',
+      }}
+      onClick={(e) => {
+        e.stopPropagation();
+        onSelect(placed.instanceId);
+      }}
+    >
+      <div className={`relative w-full h-full transition-all rounded-3xl ${isActive ? 'bg-indigo-500/5 ring-4 ring-indigo-500 shadow-2xl' : 'hover:ring-2 hover:ring-indigo-300'}`}>
+        <div className="w-full h-full overflow-hidden rounded-3xl" style={{ isolation: 'isolate' }}>
+          {/* @ts-ignore - model-viewer specific */}
+          <model-viewer
+            ref={mvRef}
+            src={placed.product.glbModel}
+            alt={placed.product.name}
+            camera-controls={isActive ? true : undefined}
+            interaction-prompt="none"
+            shadow-intensity="1.5"
+            shadow-softness="1"
+            environment-image="neutral"
+            exposure="1"
+            camera-orbit={placed.cameraOrbit}
+            bounds="tight"
+            style={{
+              width: '100%',
+              height: '100%',
+              cursor: isActive ? 'grab' : 'pointer',
+              background: 'transparent'
+            }}
+          ></model-viewer>
+        </div>
+
+        {isActive && (
+          <>
+            <button
+              className="bg-red-500 text-white hover:bg-red-600 active:scale-90 transition-all shadow-xl"
+              style={{
+                transform: `scale(${invScale})`,
+                width: '40px', height: '40px', borderRadius: '12px',
+                position: 'absolute', top: '-20px', left: '-20px',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000
+              }}
+              onClick={(e) => {
+                e.stopPropagation();
+                onRemove(placed.instanceId);
+              }}
+            >
+              <X size={20} strokeWidth={3} className="m-auto" />
+            </button>
+
+            <div
+              className="bg-indigo-600 text-white hover:bg-indigo-700 cursor-move active:scale-95 transition-all shadow-xl"
+              style={{
+                transform: `scale(${invScale})`,
+                width: '40px', height: '40px', borderRadius: '12px',
+                position: 'absolute', top: '-20px', right: '-20px',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000
+              }}
+              onMouseDown={(e) => onMouseDown(e, placed.instanceId, 'move')}
+            >
+              <Move size={20} strokeWidth={3} className="m-auto" />
+            </div>
+
+            <div
+              className="bg-indigo-600 text-white hover:bg-indigo-700 cursor-nwse-resize active:scale-95 transition-all shadow-xl"
+              style={{
+                transform: `scale(${invScale})`,
+                width: '40px', height: '40px', borderRadius: '12px',
+                position: 'absolute', bottom: '-20px', right: '-20px',
+                display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000
+              }}
+              onMouseDown={(e) => onMouseDown(e, placed.instanceId, 'scale')}
+            >
+              <Maximize2 size={20} strokeWidth={3} className="m-auto" />
+            </div>
+
+            {/* Dimensions Badge */}
+            {placed.product.dimensions && (
+              <div
+                className="absolute -right-[140px] top-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-sm p-3 rounded-2xl shadow-xl border border-white/50 animate-in fade-in slide-in-from-left-4 duration-300 pointer-events-none select-none z-[1001]"
+                style={{ transform: `scale(${invScale})` }}
+              >
+                <h4 className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 border-b border-gray-100 pb-1">{t.dimensions}</h4>
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2">
+                    <div className="w-1.5 h-1.5 rounded-full bg-indigo-500"></div>
+                    <p className="text-xs font-bold text-gray-700">L: {placed.product.dimensions.width} cm</p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-1.5 h-1.5 rounded-full bg-indigo-500"></div>
+                    <p className="text-xs font-bold text-gray-700">H: {placed.product.dimensions.height} cm</p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <div className="w-1.5 h-1.5 rounded-full bg-indigo-500"></div>
+                    <p className="text-xs font-bold text-gray-700">A: {placed.product.dimensions.depth} cm</p>
+                  </div>
+                </div>
+              </div>
+            )}
+          </>
+        )}
+      </div>
+    </div>
+  );
+};
+
 const RoomEditor: React.FC<RoomEditorProps> = ({
   initialProduct,
   onProductConsumed,
@@ -72,7 +218,6 @@ const RoomEditor: React.FC<RoomEditorProps> = ({
 
   const containerRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  // Track processed product ID to prevent double-insertion in Strict Mode
   const processedProductRef = useRef<string | null>(null);
 
   const filteredCatalog = useMemo(() => {
@@ -119,7 +264,7 @@ const RoomEditor: React.FC<RoomEditorProps> = ({
       position: { x: 50, y: 50 },
       scale: 0.8,
       rotation: 0,
-      cameraOrbit: "0deg 75deg 105%" // Valoare default pentru vizualizare optimă
+      cameraOrbit: "0deg 75deg auto"
     };
 
     setState(prev => ({
@@ -174,8 +319,6 @@ const RoomEditor: React.FC<RoomEditorProps> = ({
     event.target.value = '';
   };
 
-
-
   const handleRemoveInstance = (instanceId: string) => {
     setState(prev => ({
       ...prev,
@@ -212,20 +355,21 @@ const RoomEditor: React.FC<RoomEditorProps> = ({
     setDragMode(mode);
   };
 
-  // Sincronizarea orientării 3D când utilizatorul rotește produsul
-  const handleCameraChange = (e: any, instanceId: string) => {
-    const modelViewer = e.target;
-    if (!modelViewer) return;
+  // Debounced rotation update
+  const rotationTimeouts = useRef<{ [key: string]: NodeJS.Timeout }>({});
+  const handleCameraChange = (instanceId: string, orbit: string) => {
+    if (rotationTimeouts.current[instanceId]) {
+      clearTimeout(rotationTimeouts.current[instanceId]);
+    }
 
-    const orbit = modelViewer.getCameraOrbit();
-    const orbitString = `${orbit.theta}rad ${orbit.phi}rad ${orbit.radius}m`;
-
-    setState(prev => ({
-      ...prev,
-      placedProducts: prev.placedProducts.map(p =>
-        p.instanceId === instanceId ? { ...p, cameraOrbit: orbitString } : p
-      )
-    }));
+    rotationTimeouts.current[instanceId] = setTimeout(() => {
+      setState(prev => ({
+        ...prev,
+        placedProducts: prev.placedProducts.map(p =>
+          p.instanceId === instanceId ? { ...p, cameraOrbit: orbit } : p
+        )
+      }));
+    }, 100); // 100ms debounce
   };
 
   useEffect(() => {
@@ -284,20 +428,16 @@ const RoomEditor: React.FC<RoomEditorProps> = ({
     };
   }, [dragMode, state.activeInstanceId, setState]);
 
-  const activeProduct = state.placedProducts.find(p => p.instanceId === state.activeInstanceId);
   const hasSceneImage = !!state.roomImage;
   const isEmptyState = !state.roomImage && state.placedProducts.length === 0;
   const uploadLabel = hasSceneImage ? t.changePhoto : t.uploadPhoto;
 
   const SidePanel = (
     <div className="space-y-6 lg:h-[80vh] lg:min-h-[80vh] lg:max-h-[80vh] lg:pr-1 lg:flex lg:flex-col lg:overflow-hidden">
-
-      {/* Catalog Produse */}
       <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 flex flex-col lg:flex-[3] lg:min-h-0 overflow-hidden">
         <h2 className="text-xs font-black text-indigo-600 mb-4 flex items-center gap-2 uppercase tracking-[0.2em]">
           {t.catalogTitle}
         </h2>
-
         <div className="relative mb-4">
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
           <input
@@ -308,7 +448,6 @@ const RoomEditor: React.FC<RoomEditorProps> = ({
             className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-100 rounded-2xl text-xs font-bold focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
           />
         </div>
-
         <div className="flex flex-nowrap gap-4 overflow-x-auto pr-2 custom-scrollbar flex-1 content-start p-2 snap-x snap-mandatory lg:grid lg:grid-cols-2 lg:gap-x-4 lg:gap-y-8 lg:overflow-y-auto lg:overflow-x-hidden lg:max-h-full">
           {filteredCatalog.map(product => (
             <div
@@ -334,7 +473,6 @@ const RoomEditor: React.FC<RoomEditorProps> = ({
               </div>
             </div>
           ))}
-
           {filteredCatalog.length === 0 && (
             <div className="col-span-2 text-center py-10 text-gray-400 text-xs font-medium">
               Nu am găsit produse.
@@ -343,8 +481,6 @@ const RoomEditor: React.FC<RoomEditorProps> = ({
         </div>
       </div>
 
-
-      {/* Inventar Scenă */}
       <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 animate-in slide-in-from-left duration-500 lg:flex lg:flex-[2] lg:flex-col lg:min-h-0 lg:overflow-hidden">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xs font-black text-indigo-600 flex items-center gap-2 uppercase tracking-[0.2em]">
@@ -415,7 +551,6 @@ const RoomEditor: React.FC<RoomEditorProps> = ({
               </div>
             </div>
           ))}
-
           {groupedProducts.length === 0 && (
             <div className="rounded-2xl border border-dashed border-gray-200 bg-gray-50/60 text-center py-6 px-4">
               <p className="text-[11px] font-black text-gray-500 uppercase tracking-[0.15em]">{t.emptyInventory}</p>
@@ -423,10 +558,6 @@ const RoomEditor: React.FC<RoomEditorProps> = ({
           )}
         </div>
       </div>
-
-
-
-
     </div>
   );
 
@@ -434,15 +565,11 @@ const RoomEditor: React.FC<RoomEditorProps> = ({
     <div className="mx-auto p-4 md:p-8 animate-in fade-in duration-500 flex flex-col min-h-screen w-full max-w-[1600px] lg:overflow-visible">
       <input type="file" ref={fileInputRef} onChange={handleFileUpload} accept="image/*" className="hidden" />
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 w-full items-start">
-
-        {/* Zona de Afișare Centrală */}
         <div className="lg:col-span-8 flex flex-col lg:h-[80vh] lg:min-h-[80vh] lg:max-h-[80vh]">
           <div className="flex flex-col lg:flex-1 lg:min-h-0">
             <div className="pb-8 backdrop-blur-lg flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center">
-                  logo
-                </div>
+                <div className="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center">logo</div>
                 <div>
                   <h3 className="font-black text-white uppercase tracking-tighter text-sm">{t.studioTitle}</h3>
                   <p className="text-[10px] text-white font-bold uppercase tracking-widest">Multi-Object Real-Time Editor</p>
@@ -493,133 +620,28 @@ const RoomEditor: React.FC<RoomEditorProps> = ({
                   </div>
                 )}
 
-                {state.placedProducts.map((placed) => {
-                  const isActive = state.activeInstanceId === placed.instanceId;
-                  const invScale = 1 / Math.max(0.01, placed.scale);
-
-                  return (
-                    <div
-                      key={placed.instanceId}
-                      className={`absolute ${isActive ? 'z-50' : 'z-40'}`}
-                      style={{
-                        left: `${placed.position.x}%`,
-                        top: `${placed.position.y}%`,
-                        transform: `translate(-50%, -50%) scale(${placed.scale})`,
-                        width: '400px',
-                        height: '400px',
-                      }}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setState(prev => ({ ...prev, activeInstanceId: placed.instanceId }));
-                      }}
-                    >
-                      <div className={`relative w-full h-full transition-all rounded-3xl ${isActive ? 'bg-indigo-500/5 ring-4 ring-indigo-500 shadow-2xl' : 'hover:ring-2 hover:ring-indigo-300'}`}>
-
-                        {/* @ts-ignore - model-viewer specific */}
-                        <model-viewer
-                          src={placed.product.glbModel}
-                          alt={placed.product.name}
-                          camera-controls={isActive ? true : undefined}
-                          interaction-prompt="none"
-                          shadow-intensity="1.5"
-                          shadow-softness="1"
-                          environment-image="neutral"
-                          exposure="1"
-                          camera-orbit={placed.cameraOrbit}
-                          onCameraChange={(e: any) => handleCameraChange(e, placed.instanceId)}
-                          style={{
-                            width: '100%',
-                            height: '100%',
-                            cursor: isActive ? 'grab' : 'pointer',
-                            background: 'transparent'
-                          }}
-                        ></model-viewer>
-
-                        {isActive && (
-                          <>
-                            <button
-                              className="bg-red-500 text-white hover:bg-red-600 active:scale-90 transition-all shadow-xl"
-                              style={{
-                                transform: `scale(${invScale})`,
-                                width: '40px', height: '40px', borderRadius: '12px',
-                                position: 'absolute', top: '-20px', left: '-20px',
-                                display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000
-                              }}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleRemoveInstance(placed.instanceId);
-                              }}
-                            >
-                              <X size={20} strokeWidth={3} className="m-auto" />
-                            </button>
-
-                            <div
-                              className="bg-indigo-600 text-white hover:bg-indigo-700 cursor-move active:scale-95 transition-all shadow-xl"
-                              style={{
-                                transform: `scale(${invScale})`,
-                                width: '40px', height: '40px', borderRadius: '12px',
-                                position: 'absolute', top: '-20px', right: '-20px',
-                                display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000
-                              }}
-                              onMouseDown={(e) => handleMouseDown(e, placed.instanceId, 'move')}
-                            >
-                              <Move size={20} strokeWidth={3} className="m-auto" />
-                            </div>
-
-                            <div
-                              className="bg-indigo-600 text-white hover:bg-indigo-700 cursor-nwse-resize active:scale-95 transition-all shadow-xl"
-                              style={{
-                                transform: `scale(${invScale})`,
-                                width: '40px', height: '40px', borderRadius: '12px',
-                                position: 'absolute', bottom: '-20px', right: '-20px',
-                                display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000
-                              }}
-                              onMouseDown={(e) => handleMouseDown(e, placed.instanceId, 'scale')}
-                            >
-                              <Maximize2 size={20} strokeWidth={3} className="m-auto" />
-                            </div>
-
-                            {/* Dimensions Badge */}
-                            {placed.product.dimensions && (
-                              <div
-                                className="absolute -right-[140px] top-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-sm p-3 rounded-2xl shadow-xl border border-white/50 animate-in fade-in slide-in-from-left-4 duration-300 pointer-events-none select-none z-[1001]"
-                                style={{ transform: `scale(${invScale})` }}
-                              >
-                                <h4 className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 border-b border-gray-100 pb-1">{t.dimensions}</h4>
-                                <div className="space-y-1">
-                                  <div className="flex items-center gap-2">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-indigo-500"></div>
-                                    <p className="text-xs font-bold text-gray-700">L: {placed.product.dimensions.width} cm</p>
-                                  </div>
-                                  <div className="flex items-center gap-2">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-indigo-500"></div>
-                                    <p className="text-xs font-bold text-gray-700">H: {placed.product.dimensions.height} cm</p>
-                                  </div>
-                                  <div className="flex items-center gap-2">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-indigo-500"></div>
-                                    <p className="text-xs font-bold text-gray-700">A: {placed.product.dimensions.depth} cm</p>
-                                  </div>
-                                </div>
-                              </div>
-                            )}
-                          </>
-                        )}
-                      </div>
-                    </div>
-                  );
-                })}
+                {state.placedProducts.map((placed) => (
+                  <ProductInstance
+                    key={placed.instanceId}
+                    placed={placed}
+                    isActive={state.activeInstanceId === placed.instanceId}
+                    onSelect={(id) => setState(prev => ({ ...prev, activeInstanceId: id }))}
+                    onRemove={handleRemoveInstance}
+                    onMouseDown={handleMouseDown}
+                    onCameraChange={handleCameraChange}
+                    lang={lang}
+                  />
+                ))}
               </div>
             </div>
           </div>
         </div>
 
-        {/* Panou Control Lateral - Desktop */}
         <div className="hidden lg:flex lg:flex-col lg:col-span-4">
           {SidePanel}
         </div>
       </div>
 
-      {/* Panou Control - Mobile Bottom Sheet */}
       <div className="lg:hidden">
         <button
           onClick={() => setIsMobilePanelOpen(prev => !prev)}
@@ -630,7 +652,7 @@ const RoomEditor: React.FC<RoomEditorProps> = ({
         </button>
         <div
           className={`fixed bottom-0 left-0 right-0 z-40 transition-transform duration-300 ${isMobilePanelOpen ? 'translate-y-0' : 'translate-y-full'}`}
-          style= {{ zIndex:"99" }}
+          style={{ zIndex: "99" }}
         >
           <div className="bg-white border-t border-gray-200 rounded-t-3xl shadow-2xl max-h-[calc(100vh-40px)] overflow-y-auto p-4">
             <div className="flex items-center justify-between mb-2">
