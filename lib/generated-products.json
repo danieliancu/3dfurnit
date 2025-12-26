@@ -1,0 +1,317 @@
+[
+  {
+    "id": "beds-Bed-frame-239",
+    "name": "Bed frame 239",
+    "category": "beds",
+    "price": 152,
+    "dimensions": {
+      "width": 185,
+      "height": 83,
+      "depth": 32
+    },
+    "image": "/images/beds/Bed-frame-239.png",
+    "glbModel": "/models/beds/Bed-frame-239.glb",
+    "description": "Item automatically detected from library.",
+    "dateAdded": "2025-12-19T12:35:50.882Z"
+  },
+  {
+    "id": "beds-Bed_Elegance",
+    "name": "Bed Elegance",
+    "category": "beds",
+    "price": 137,
+    "dimensions": {
+      "width": 107,
+      "height": 137,
+      "depth": 32
+    },
+    "image": "/images/beds/Bed_Elegance.png",
+    "glbModel": "/models/beds/Bed_Elegance.glb",
+    "description": "Item automatically detected from library.",
+    "dateAdded": "2025-10-24T17:33:57.209Z"
+  },
+  {
+    "id": "beds-Single-Bed-Mattress",
+    "name": "Single Bed Mattress",
+    "category": "beds",
+    "price": 167,
+    "dimensions": {
+      "width": 77,
+      "height": 89,
+      "depth": 79
+    },
+    "image": "/images/beds/Single-Bed-Mattress.png",
+    "glbModel": "/models/beds/Single-Bed-Mattress.glb",
+    "description": "Item automatically detected from library.",
+    "dateAdded": "2025-11-07T20:41:28.719Z"
+  },
+  {
+    "id": "beds-West-Elm-959",
+    "name": "West Elm 959",
+    "category": "beds",
+    "price": 118,
+    "dimensions": {
+      "width": 81,
+      "height": 65,
+      "depth": 49
+    },
+    "image": "/images/beds/West-Elm-959.png",
+    "glbModel": "/models/beds/West-Elm-959.glb",
+    "description": "Item automatically detected from library.",
+    "dateAdded": "2025-11-02T15:59:15.421Z"
+  },
+  {
+    "id": "chairs-chair-dining",
+    "name": "chair dining",
+    "category": "chairs",
+    "price": 103,
+    "dimensions": {
+      "width": 82,
+      "height": 118,
+      "depth": 70
+    },
+    "image": "/images/chairs/chair-dining.png",
+    "glbModel": "/models/chairs/chair-dining.glb",
+    "description": "Item automatically detected from library.",
+    "dateAdded": "2025-12-18T12:50:47.059Z"
+  },
+  {
+    "id": "chairs-chair-executive",
+    "name": "chair executive",
+    "category": "chairs",
+    "price": 103,
+    "dimensions": {
+      "width": 118,
+      "height": 151,
+      "depth": 81
+    },
+    "image": "/images/chairs/chair-executive.png",
+    "glbModel": "/models/chairs/chair-executive.glb",
+    "description": "Item automatically detected from library.",
+    "dateAdded": "2025-12-09T01:50:19.376Z"
+  },
+  {
+    "id": "chairs-chair-office",
+    "name": "chair office",
+    "category": "chairs",
+    "price": 103,
+    "dimensions": {
+      "width": 165,
+      "height": 185,
+      "depth": 66
+    },
+    "image": "/images/chairs/chair-office.png",
+    "glbModel": "/models/chairs/chair-office.glb",
+    "description": "Item automatically detected from library.",
+    "dateAdded": "2025-09-03T04:50:59.305Z"
+  },
+  {
+    "id": "chairs-chair",
+    "name": "chair",
+    "category": "chairs",
+    "price": 166,
+    "dimensions": {
+      "width": 183,
+      "height": 109,
+      "depth": 89
+    },
+    "image": "/images/chairs/chair.png",
+    "glbModel": "/models/chairs/chair.glb",
+    "description": "Item automatically detected from library.",
+    "dateAdded": "2025-12-10T16:23:16.378Z"
+  },
+  {
+    "id": "lamps-lamp-ceiling",
+    "name": "lamp ceiling",
+    "category": "lamps",
+    "price": 153,
+    "dimensions": {
+      "width": 102,
+      "height": 95,
+      "depth": 38
+    },
+    "image": "/images/lamps/lamp-ceiling.png",
+    "glbModel": "/models/lamps/lamp-ceiling.glb",
+    "description": "Item automatically detected from library.",
+    "dateAdded": "2025-11-02T05:30:48.328Z"
+  },
+  {
+    "id": "lamps-lamp-floor",
+    "name": "lamp floor",
+    "category": "lamps",
+    "price": 123,
+    "dimensions": {
+      "width": 122,
+      "height": 148,
+      "depth": 31
+    },
+    "image": "/images/lamps/lamp-floor.png",
+    "glbModel": "/models/lamps/lamp-floor.glb",
+    "description": "Item automatically detected from library.",
+    "dateAdded": "2025-12-22T03:06:25.201Z"
+  },
+  {
+    "id": "lamps-lamp-office",
+    "name": "lamp office",
+    "category": "lamps",
+    "price": 140,
+    "dimensions": {
+      "width": 76,
+      "height": 68,
+      "depth": 56
+    },
+    "image": "/images/lamps/lamp-office.png",
+    "glbModel": "/models/lamps/lamp-office.glb",
+    "description": "Item automatically detected from library.",
+    "dateAdded": "2025-09-06T12:48:40.999Z"
+  },
+  {
+    "id": "lamps-lamp-wall",
+    "name": "lamp wall",
+    "category": "lamps",
+    "price": 163,
+    "dimensions": {
+      "width": 166,
+      "height": 103,
+      "depth": 41
+    },
+    "image": "/images/lamps/lamp-wall.png",
+    "glbModel": "/models/lamps/lamp-wall.glb",
+    "description": "Item automatically detected from library.",
+    "dateAdded": "2025-10-04T08:56:27.681Z"
+  },
+  {
+    "id": "lamps-lamp",
+    "name": "lamp",
+    "category": "lamps",
+    "price": 114,
+    "dimensions": {
+      "width": 100,
+      "height": 100,
+      "depth": 40
+    },
+    "image": "/images/lamps/lamp.png",
+    "glbModel": "/models/lamps/lamp.glb",
+    "description": "Item automatically detected from library.",
+    "dateAdded": "2025-12-04T18:29:40.749Z"
+  },
+  {
+    "id": "cabinets-cabinet-bathroom",
+    "name": "cabinet bathroom",
+    "category": "cabinets",
+    "price": 103,
+    "dimensions": {
+      "width": 131,
+      "height": 168,
+      "depth": 86
+    },
+    "image": "/images/cabinets/cabinet-bathroom.png",
+    "glbModel": "/models/cabinets/cabinet-bathroom.glb",
+    "description": "Item automatically detected from library.",
+    "dateAdded": "2025-09-18T01:06:57.462Z"
+  },
+  {
+    "id": "cabinets-cabinet-white",
+    "name": "cabinet white",
+    "category": "cabinets",
+    "price": 138,
+    "dimensions": {
+      "width": 77,
+      "height": 63,
+      "depth": 95
+    },
+    "image": "/images/cabinets/cabinet-white.png",
+    "glbModel": "/models/cabinets/cabinet-white.glb",
+    "description": "Item automatically detected from library.",
+    "dateAdded": "2025-10-23T01:07:58.658Z"
+  },
+  {
+    "id": "cabinets-cabinet",
+    "name": "cabinet",
+    "category": "cabinets",
+    "price": 199,
+    "dimensions": {
+      "width": 143,
+      "height": 81,
+      "depth": 89
+    },
+    "image": "/images/cabinets/cabinet.png",
+    "glbModel": "/models/cabinets/cabinet.glb",
+    "description": "Item automatically detected from library.",
+    "dateAdded": "2025-10-05T16:31:01.422Z"
+  },
+  {
+    "id": "tables-table-coffee",
+    "name": "table coffee",
+    "category": "tables",
+    "price": 137,
+    "dimensions": {
+      "width": 159,
+      "height": 76,
+      "depth": 94
+    },
+    "image": "/images/tables/table-coffee.png",
+    "glbModel": "/models/tables/table-coffee.glb",
+    "description": "Item automatically detected from library.",
+    "dateAdded": "2025-10-01T09:30:52.415Z"
+  },
+  {
+    "id": "tables-table-dining",
+    "name": "table dining",
+    "category": "tables",
+    "price": 186,
+    "dimensions": {
+      "width": 50,
+      "height": 149,
+      "depth": 94
+    },
+    "image": "/images/tables/table-dining.png",
+    "glbModel": "/models/tables/table-dining.glb",
+    "description": "Item automatically detected from library.",
+    "dateAdded": "2025-10-18T02:48:58.626Z"
+  },
+  {
+    "id": "tables-table-dressing",
+    "name": "table dressing",
+    "category": "tables",
+    "price": 148,
+    "dimensions": {
+      "width": 129,
+      "height": 72,
+      "depth": 94
+    },
+    "image": "/images/tables/table-dressing.png",
+    "glbModel": "/models/tables/table-dressing.glb",
+    "description": "Item automatically detected from library.",
+    "dateAdded": "2025-09-22T22:21:18.888Z"
+  },
+  {
+    "id": "tables-table-office",
+    "name": "table office",
+    "category": "tables",
+    "price": 113,
+    "dimensions": {
+      "width": 159,
+      "height": 100,
+      "depth": 74
+    },
+    "image": "/images/tables/table-office.png",
+    "glbModel": "/models/tables/table-office.glb",
+    "description": "Item automatically detected from library.",
+    "dateAdded": "2025-10-01T17:59:55.249Z"
+  },
+  {
+    "id": "tables-table-stand",
+    "name": "table stand",
+    "category": "tables",
+    "price": 145,
+    "dimensions": {
+      "width": 197,
+      "height": 134,
+      "depth": 51
+    },
+    "image": "/images/tables/table-stand.png",
+    "glbModel": "/models/tables/table-stand.glb",
+    "description": "Item automatically detected from library.",
+    "dateAdded": "2025-12-16T07:06:17.657Z"
+  }
+]
