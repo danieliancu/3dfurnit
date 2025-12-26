@@ -18,7 +18,7 @@ export default function CatalogPage() {
     return (
         <div className="min-h-screen bg-white text-gray-900 selection:bg-indigo-100">
             <Header />
-            <main>
+            <main className="max-w-[1600px] mx-auto w-full">
                 <Catalog onSelectProduct={handleSelectProduct} lang={lang} />
             </main>
         </div>

@@ -68,7 +68,7 @@ const Catalog: React.FC<CatalogProps> = ({ onSelectProduct, lang }) => {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-20">
+    <div className="max-w-7xl lg:max-w-[1400px] mx-auto px-4 py-20">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-10 mb-20">
         <div>
           <h1 className="text-5xl font-black text-gray-900 tracking-tighter uppercase mb-4">{t.title}</h1>

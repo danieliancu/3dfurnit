@@ -12,7 +12,12 @@ import {
     Mail,
     Send,
     Check,
-    Armchair
+    Armchair,
+    Box,
+    Eye,
+    ShoppingBag,
+    ShieldCheck,
+    Rotate3D
 } from 'lucide-react';
 import { TRANSLATIONS, PRICING_PLANS } from '../constants';
 import FeatureCard from '../components/FeatureCard';
@@ -23,6 +28,155 @@ import { useLanguage } from './providers';
 export default function Home() {
     const { lang, setLang } = useLanguage();
     const t = TRANSLATIONS[lang];
+    const integrationContent: Record<string, {
+        title: string;
+        subtitle: string;
+        providers: { id: string; name: string; logo: string; tagline: string; tech: string }[];
+    }> = {
+        ro: {
+            title: 'Integrare e-commerce',
+            subtitle: 'Conectăm platformele tale în câteva minute, cu onboarding asistat.',
+            providers: [
+                { id: 'woocommerce', name: 'WooCommerce', logo: '/logos/wordpress.png', tagline: 'Plugin + chei REST (ck/cs)', tech: 'Instalăm modulul 3dFurnit, generăm chei REST, activăm webhooks product create/update și sincronizăm imaginile + fișierele GLB.' },
+                { id: 'shopify', name: 'Shopify', logo: '/logos/shopify.png', tagline: 'Custom App + GraphQL', tech: 'App privată/publică cu Admin & Storefront API, App Proxy pentru widget, webhooks product/update și metafield pentru link-ul 3D.' },
+                { id: 'magento', name: 'Magento', logo: '/logos/Magento.webp', tagline: 'Token REST/GraphQL', tech: 'Token integrator, endpoint dedicat feed-ului, cron de sincronizare și observer pe product save pentru a trimite asset-urile 3D.' },
+                { id: 'bigcommerce', name: 'BigCommerce', logo: '/logos/BigCommerce.png', tagline: 'OAuth App + Catalog API', tech: 'Aplicație OAuth, Catalog API pentru produse/imagini, webhook product.updated și Script Manager pentru butonul 3D.' },
+                { id: 'prestashop', name: 'PrestaShop', logo: '/logos/PrestaShop.png', tagline: 'Modul + Webservice key', tech: 'Modul 3dFurnit, generăm Webservice key, endpoint de sync și hook actionProductSave pentru actualizări automate.' },
+                { id: 'wix', name: 'Wix', logo: '/logos/wix.png', tagline: 'Wix App + OAuth', tech: 'Aplicație Wix cu OAuth, Wix Stores API pentru catalog, events products.onUpdate pentru refresh automat al previzualizărilor 3D.' },
+                { id: 'squarespace', name: 'Squarespace', logo: '/logos/squarespace.png', tagline: 'Commerce API + Webhooks', tech: 'Cheie Commerce API, webhook pe catalog, snippet injectat pentru butonul 3D și mapare SKU–model.' },
+                { id: 'opencart', name: 'OpenCart', logo: '/logos/opencart.png', tagline: 'Extensie + API key', tech: 'Extensie 3dFurnit, API key pentru feed, event pe catalog/model product pentru sync imagini/stoc și link 3D.' },
+            ]
+        },
+        en: {
+            title: 'E-commerce Integrations',
+            subtitle: 'Connect your stack in minutes with guided onboarding.',
+            providers: [
+                { id: 'woocommerce', name: 'WooCommerce', logo: '/logos/wordpress.png', tagline: 'Plugin + REST keys (ck/cs)', tech: 'Install the 3dFurnit plugin, generate REST keys, enable product create/update webhooks, sync images and GLB assets.' },
+                { id: 'shopify', name: 'Shopify', logo: '/logos/shopify.png', tagline: 'Custom App + GraphQL', tech: 'Private/public app with Admin & Storefront API, App Proxy for the widget, product/update webhooks, metafield to store the 3D link.' },
+                { id: 'magento', name: 'Magento', logo: '/logos/Magento.webp', tagline: 'REST/GraphQL token', tech: 'Integrator token, dedicated feed endpoint, cron sync, observer on product save to push 3D assets.' },
+                { id: 'bigcommerce', name: 'BigCommerce', logo: '/logos/BigCommerce.png', tagline: 'OAuth App + Catalog API', tech: 'OAuth app, Catalog APIs for products/images, webhook product.updated, Script Manager injects the 3D button.' },
+                { id: 'prestashop', name: 'PrestaShop', logo: '/logos/PrestaShop.png', tagline: 'Module + Webservice key', tech: '3dFurnit module, generate Webservice key, expose sync endpoint and hook actionProductSave for automatic updates.' },
+                { id: 'wix', name: 'Wix', logo: '/logos/wix.png', tagline: 'Wix App + OAuth', tech: 'Wix app with OAuth, Wix Stores APIs for catalog, products.onUpdate events to refresh 3D previews automatically.' },
+                { id: 'squarespace', name: 'Squarespace', logo: '/logos/squarespace.png', tagline: 'Commerce API + Webhooks', tech: 'Commerce API key, catalog webhook, injected snippet for the 3D button, SKU-to-model mapping.' },
+                { id: 'opencart', name: 'OpenCart', logo: '/logos/opencart.png', tagline: 'Extension + API key', tech: '3dFurnit extension, API key for feed, event on catalog/model product to sync images/stock and 3D link.' },
+            ]
+        },
+        fr: {
+            title: 'Intégrations e-commerce',
+            subtitle: 'Connectez vos plateformes en quelques minutes avec onboarding guidé.',
+            providers: [
+                { id: 'woocommerce', name: 'WooCommerce', logo: '/logos/wordpress.png', tagline: 'Plugin + clés REST (ck/cs)', tech: 'Installer le plugin 3dFurnit, générer les clés REST, activer les webhooks product create/update, synchroniser images et fichiers GLB.' },
+                { id: 'shopify', name: 'Shopify', logo: '/logos/shopify.png', tagline: 'App sur mesure + GraphQL', tech: 'Application privée/publique avec Admin & Storefront API, App Proxy pour le widget, webhooks product/update, metafield pour le lien 3D.' },
+                { id: 'magento', name: 'Magento', logo: '/logos/Magento.webp', tagline: 'Jeton REST/GraphQL', tech: 'Jeton intégrateur, endpoint de feed dédié, cron de synchro et observer sur product save pour pousser les assets 3D.' },
+                { id: 'bigcommerce', name: 'BigCommerce', logo: '/logos/BigCommerce.png', tagline: 'App OAuth + Catalog API', tech: 'Application OAuth, Catalog API pour produits/images, webhook product.updated, Script Manager injecte le bouton 3D.' },
+                { id: 'prestashop', name: 'PrestaShop', logo: '/logos/PrestaShop.png', tagline: 'Module + clé Webservice', tech: 'Module 3dFurnit, génération de clé Webservice, endpoint de sync et hook actionProductSave pour mises à jour auto.' },
+                { id: 'wix', name: 'Wix', logo: '/logos/wix.png', tagline: 'App Wix + OAuth', tech: 'App Wix avec OAuth, Wix Stores APIs pour le catalogue, événements products.onUpdate pour rafraîchir les vues 3D.' },
+                { id: 'squarespace', name: 'Squarespace', logo: '/logos/squarespace.png', tagline: 'Commerce API + Webhooks', tech: 'Clé Commerce API, webhook catalogue, snippet injecté pour le bouton 3D, mapping SKU–modèle.' },
+                { id: 'opencart', name: 'OpenCart', logo: '/logos/opencart.png', tagline: 'Extension + clé API', tech: 'Extension 3dFurnit, clé API pour le feed, event sur catalog/model product pour synchroniser images/stock et lien 3D.' },
+            ]
+        },
+        de: {
+            title: 'E-Commerce-Integrationen',
+            subtitle: 'Verbinden Sie Ihre Plattformen in Minuten mit geführtem Onboarding.',
+            providers: [
+                { id: 'woocommerce', name: 'WooCommerce', logo: '/logos/wordpress.png', tagline: 'Plugin + REST-Schlüssel', tech: '3dFurnit-Plugin installieren, REST-Schlüssel erzeugen, Webhooks für product create/update aktivieren, Bilder und GLB synchronisieren.' },
+                { id: 'shopify', name: 'Shopify', logo: '/logos/shopify.png', tagline: 'Custom App + GraphQL', tech: 'Private/öffentliche App mit Admin & Storefront API, App Proxy für das Widget, Webhooks product/update, Metafield für den 3D-Link.' },
+                { id: 'magento', name: 'Magento', logo: '/logos/Magento.webp', tagline: 'REST/GraphQL Token', tech: 'Integrator-Token, eigener Feed-Endpoint, Cron-Sync, Observer auf product save zum Pushen der 3D-Assets.' },
+                { id: 'bigcommerce', name: 'BigCommerce', logo: '/logos/BigCommerce.png', tagline: 'OAuth App + Catalog API', tech: 'OAuth-App, Catalog APIs für Produkte/Bilder, Webhook product.updated, Script Manager injiziert den 3D-Button.' },
+                { id: 'prestashop', name: 'PrestaShop', logo: '/logos/PrestaShop.png', tagline: 'Modul + Webservice-Key', tech: '3dFurnit-Modul, Webservice-Schlüssel, Sync-Endpoint und Hook actionProductSave für automatische Updates.' },
+                { id: 'wix', name: 'Wix', logo: '/logos/wix.png', tagline: 'Wix App + OAuth', tech: 'Wix-App mit OAuth, Wix Stores APIs fürs Katalog, products.onUpdate Events für automatische 3D-Updates.' },
+                { id: 'squarespace', name: 'Squarespace', logo: '/logos/squarespace.png', tagline: 'Commerce API + Webhooks', tech: 'Commerce-API-Schlüssel, Katalog-Webhooks, injizierter Snippet für 3D-Button, SKU–Modell-Mapping.' },
+                { id: 'opencart', name: 'OpenCart', logo: '/logos/opencart.png', tagline: 'Extension + API-Key', tech: '3dFurnit-Extension, API-Key für Feed, Event auf catalog/model product für Sync von Bildern/Bestand und 3D-Link.' },
+            ]
+        },
+        es: {
+            title: 'Integraciones e-commerce',
+            subtitle: 'Conecta tus plataformas en minutos con onboarding asistido.',
+            providers: [
+                { id: 'woocommerce', name: 'WooCommerce', logo: '/logos/wordpress.png', tagline: 'Plugin + claves REST', tech: 'Instalamos el plugin 3dFurnit, generamos claves REST, activamos webhooks de creación/actualización y sincronizamos imágenes y GLB.' },
+                { id: 'shopify', name: 'Shopify', logo: '/logos/shopify.png', tagline: 'App personalizada + GraphQL', tech: 'App privada/pública con Admin y Storefront API, App Proxy para el widget, webhooks product/update y metafield para el enlace 3D.' },
+                { id: 'magento', name: 'Magento', logo: '/logos/Magento.webp', tagline: 'Token REST/GraphQL', tech: 'Token de integrador, endpoint de feed dedicado, cron de sincronización y observer en product save para enviar assets 3D.' },
+                { id: 'bigcommerce', name: 'BigCommerce', logo: '/logos/BigCommerce.png', tagline: 'App OAuth + Catalog API', tech: 'Aplicación OAuth, Catalog APIs para productos/imágenes, webhook product.updated, Script Manager inyecta el botón 3D.' },
+                { id: 'prestashop', name: 'PrestaShop', logo: '/logos/PrestaShop.png', tagline: 'Módulo + clave Webservice', tech: 'Módulo 3dFurnit, generamos Webservice key, endpoint de sync y hook actionProductSave para actualizaciones automáticas.' },
+                { id: 'wix', name: 'Wix', logo: '/logos/wix.png', tagline: 'App Wix + OAuth', tech: 'App Wix con OAuth, Wix Stores APIs para catálogo, eventos products.onUpdate para refrescar las vistas 3D automáticamente.' },
+                { id: 'squarespace', name: 'Squarespace', logo: '/logos/squarespace.png', tagline: 'Commerce API + Webhooks', tech: 'Clave Commerce API, webhook de catálogo, snippet inyectado para el botón 3D, mapeo SKU–modelo.' },
+                { id: 'opencart', name: 'OpenCart', logo: '/logos/opencart.png', tagline: 'Extensión + clave API', tech: 'Extensión 3dFurnit, clave API para el feed, evento en catalog/model product para sincronizar imágenes/stock y enlace 3D.' },
+            ]
+        },
+    };
+    const integration = integrationContent[lang] || integrationContent.en;
+
+    const advantageContent: Record<string, {
+        title: string;
+        subtitle: string;
+        items: { icon: 'Eye' | 'Rotate3D' | 'Box' | 'ShoppingBag' | 'ShieldCheck'; title: string; desc: string }[];
+    }> = {
+        ro: {
+            title: 'Avantajele 3D pentru e-commerce',
+            subtitle: 'Crește conversia, reduce retururile și oferă încredere instant clienților tăi.',
+            items: [
+                { icon: 'Eye', title: 'Claritate vizuală', desc: 'Model 3D la scară reală, cu unghiuri multiple și iluminare corectă pentru zero surprize la livrare.' },
+                { icon: 'Rotate3D', title: 'Proba în cameră', desc: 'Produsul se așază pe fundalul clientului, cu rotație și scalare precise pentru potrivire reală.' },
+                { icon: 'Box', title: 'Asset unic', desc: 'Un singur GLB optimizat rulează pe web, mobile și AR, fără duplicate de imagini greu de întreținut.' },
+                { icon: 'ShoppingBag', title: 'Flux de checkout rapid', desc: 'Butonul “Adaugă în coș” din scenă trimite direct în coșul platformei tale, fără pași în plus.' },
+                { icon: 'ShieldCheck', title: 'Mai puține retururi', desc: 'Așteptările sunt aliniate: clienții văd dimensiuni, materiale și proporții înainte să cumpere.' },
+            ],
+        },
+        en: {
+            title: '3D advantages for furniture e-commerce',
+            subtitle: 'Boost conversion, cut returns, and deliver instant buyer confidence.',
+            items: [
+                { icon: 'Eye', title: 'Visual clarity', desc: 'True-to-scale 3D with multiple angles and accurate lighting—no surprises at delivery.' },
+                { icon: 'Rotate3D', title: 'Try in-room', desc: 'Place, rotate, and scale the product on the customer’s background for a real fit check.' },
+                { icon: 'Box', title: 'Single asset', desc: 'One optimized GLB powers web, mobile, and AR—no fragile image bundles to maintain.' },
+                { icon: 'ShoppingBag', title: 'Fast checkout', desc: '“Add to cart” inside the scene sends the item straight to your platform cart.' },
+                { icon: 'ShieldCheck', title: 'Fewer returns', desc: 'Expectations match reality: size, materials, and proportions are clear pre-purchase.' },
+            ],
+        },
+        fr: {
+            title: "Atouts 3D pour l’e-commerce mobilier",
+            subtitle: 'Plus de conversion, moins de retours, confiance immédiate pour l’acheteur.',
+            items: [
+                { icon: 'Eye', title: 'Clarté visuelle', desc: '3D à l’échelle réelle, angles multiples, lumière fidèle – pas de surprises à la livraison.' },
+                { icon: 'Rotate3D', title: 'Essai in situ', desc: 'Placement, rotation et mise à l’échelle dans la pièce du client pour vérifier l’ajustement.' },
+                { icon: 'Box', title: 'Asset unique', desc: 'Un GLB optimisé alimente web, mobile et AR, sans lots d’images difficiles à gérer.' },
+                { icon: 'ShoppingBag', title: 'Checkout rapide', desc: '“Ajouter au panier” depuis la scène envoie l’article directement dans le panier e-commerce.' },
+                { icon: 'ShieldCheck', title: 'Moins de retours', desc: 'Attentes alignées : dimensions, matériaux et proportions visibles avant l’achat.' },
+            ],
+        },
+        de: {
+            title: '3D-Vorteile für Möbel-E-Commerce',
+            subtitle: 'Mehr Conversion, weniger Retouren und sofortiges Käufervertrauen.',
+            items: [
+                { icon: 'Eye', title: 'Visuelle Klarheit', desc: '3D in echter Größe, mehrere Blickwinkel, korrektes Licht – keine Überraschungen bei Lieferung.' },
+                { icon: 'Rotate3D', title: 'Im Raum testen', desc: 'Platzieren, drehen und skalieren im Kundenraum für den echten Passform-Check.' },
+                { icon: 'Box', title: 'Ein einziges Asset', desc: 'Ein optimiertes GLB bedient Web, Mobile und AR – keine anfälligen Bildstapel.' },
+                { icon: 'ShoppingBag', title: 'Schneller Checkout', desc: '“In den Warenkorb” aus der Szene legt direkt in den Shop-Warenkorb.' },
+                { icon: 'ShieldCheck', title: 'Weniger Retouren', desc: 'Erwartung trifft Realität: Maße, Materialien und Proportionen sind vor dem Kauf klar.' },
+            ],
+        },
+        es: {
+            title: 'Ventajas 3D para e-commerce de muebles',
+            subtitle: 'Más conversión, menos devoluciones y confianza inmediata del comprador.',
+            items: [
+                { icon: 'Eye', title: 'Claridad visual', desc: '3D a escala real, múltiples ángulos y luz precisa: sin sorpresas en la entrega.' },
+                { icon: 'Rotate3D', title: 'Prueba en la habitación', desc: 'Coloca, rota y escala el producto en el fondo del cliente para verificar el ajuste real.' },
+                { icon: 'Box', title: 'Asset único', desc: 'Un GLB optimizado impulsa web, móvil y AR; sin paquetes de imágenes frágiles.' },
+                { icon: 'ShoppingBag', title: 'Checkout rápido', desc: '“Añadir al carrito” desde la escena envía directo al carrito de tu plataforma.' },
+                { icon: 'ShieldCheck', title: 'Menos devoluciones', desc: 'Expectativas alineadas: tamaños, materiales y proporciones claros antes de comprar.' },
+            ],
+        },
+    };
+    const advantages = advantageContent[lang] || advantageContent.en;
+    const iconMap = { Eye, Rotate3D, Box, ShoppingBag, ShieldCheck };
+    const positionedProviders = integration.providers.map((p, idx) => {
+        const angle = (360 / integration.providers.length) * idx;
+        const rad = (angle * Math.PI) / 180;
+        const radius = 38;
+        const top = 50 - radius * Math.cos(rad);
+        const left = 50 + radius * Math.sin(rad);
+        return { ...p, angle, top, left };
+    });
 
     return (
         <div className="min-h-screen bg-white text-gray-900 selection:bg-indigo-100">
@@ -125,6 +279,77 @@ export default function Home() {
                         </div>
                     </div>
 
+                    {/* Integrations */}
+                    <div className="relative bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 py-24 text-white">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div className="text-center mb-12">
+                                <h2 className="text-4xl font-black text-white mb-4 tracking-tighter uppercase">{integration.title}</h2>
+                                <p className="text-xl text-white/70 max-w-3xl mx-auto font-medium">{integration.subtitle}</p>
+                            </div>
+
+                            {/* Radial layout for desktop */}
+                            <div className="hidden md:block">
+                                <div className="relative max-w-5xl mx-auto aspect-square">
+                                    <div className="absolute inset-12 rounded-full border border-dashed border-white/15"></div>
+                                    <div className="absolute inset-24 rounded-full border border-white/10"></div>
+
+                                    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-indigo-800/60 backdrop-blur-xl rounded-full w-44 h-44 shadow-2xl border border-indigo-500/40 flex flex-col items-center justify-center gap-3">
+                                        <Armchair className="text-indigo-200" size={44} />
+                                        <p className="text-[13px] font-black uppercase tracking-[0.25em] text-white">3dFurnit</p>
+                                    </div>
+
+                                    {positionedProviders.map((p) => (
+                                        <React.Fragment key={p.id}>
+                                            <div
+                                                className="absolute left-1/2 top-1/2 origin-top"
+                                                style={{ transform: `rotate(${p.angle}deg) translateY(-6%)` }}
+                                            >
+                                                <div className="relative h-[34%] w-[2px]">
+                                                    <div className="absolute inset-0 bg-gradient-to-b from-indigo-300/70 via-indigo-400/80 to-indigo-500/80"></div>
+                                                    <div className="absolute -bottom-2 left-1/2 -translate-x-1/2">
+                                                        <div className="w-3 h-3 rotate-45 bg-indigo-400 shadow-[0_0_0_4px_rgba(99,102,241,0.2)]"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div
+                                                className="absolute w-48 bg-white/5 border border-white/10 shadow-2xl rounded-2xl p-4 flex flex-col gap-2 backdrop-blur-xl"
+                                                style={{ top: `${p.top}%`, left: `${p.left}%`, transform: 'translate(-50%,-50%)' }}
+                                            >
+                                                <div className="flex items-center gap-3">
+                                                    <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/10 flex items-center justify-center overflow-hidden">
+                                                        <img src={p.logo} alt={`${p.name} logo`} className="w-full h-full object-contain" />
+                                                    </div>
+                                                    <div>
+                                                        <p className="text-xs font-black text-white uppercase tracking-tight leading-tight">{p.name}</p>
+                                                        <p className="text-[10px] font-bold text-indigo-200 uppercase tracking-[0.15em]">{p.tagline}</p>
+                                                    </div>
+                                                </div>
+                                                <p className="text-[11px] text-white/70 leading-snug">{p.tech}</p>
+                                            </div>
+                                        </React.Fragment>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Mobile / tablet stacked list */}
+                            <div className="md:hidden space-y-4">
+                                {integration.providers.map((p) => (
+                                    <div key={p.id} className="bg-white/5 rounded-2xl border border-white/10 shadow-xl p-4 flex gap-3 backdrop-blur-xl">
+                                        <div className="w-12 h-12 rounded-xl bg-white/10 border border-white/10 flex items-center justify-center overflow-hidden shrink-0">
+                                            <img src={p.logo} alt={`${p.name} logo`} className="w-full h-full object-contain" />
+                                        </div>
+                                        <div className="flex-1">
+                                            <p className="text-sm font-black text-white uppercase tracking-tight leading-tight">{p.name}</p>
+                                            <p className="text-[10px] font-bold text-indigo-200 uppercase tracking-[0.15em]">{p.tagline}</p>
+                                            <p className="text-[12px] text-white/80 leading-snug mt-2">{p.tech}</p>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+
                     {/* Pricing */}
                     <div id="pricing-section" className="bg-gray-50/50 py-32">
                         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -171,6 +396,32 @@ export default function Home() {
                                         </button>
                                     </div>
                                 ))}
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* 3D Advantages */}
+                    <div className="bg-white py-24">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div className="text-center mb-12">
+                                <h2 className="text-4xl font-black text-gray-900 mb-4 tracking-tighter uppercase">{advantages.title}</h2>
+                                <p className="text-xl text-gray-500 max-w-3xl mx-auto font-medium">{advantages.subtitle}</p>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                {advantages.items.map((item, idx) => {
+                                    const IconComp = iconMap[item.icon];
+                                    return (
+                                        <div key={idx} className="bg-white rounded-[2rem] border border-gray-100 shadow-xl p-6 flex flex-col gap-4 hover:-translate-y-1 transition-transform">
+                                            <div className="w-16 h-16 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center shadow-inner">
+                                                <IconComp size={32} />
+                                            </div>
+                                            <div>
+                                                <h3 className="text-xl font-black text-gray-900 uppercase tracking-tight mb-2">{item.title}</h3>
+                                                <p className="text-sm text-gray-600 leading-relaxed">{item.desc}</p>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
                             </div>
                         </div>
                     </div>

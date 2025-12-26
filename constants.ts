@@ -114,7 +114,7 @@ const sharedHome = {
 
 export const TRANSLATIONS = {
   ro: {
-    nav: { home: 'Acasă', features: 'Funcționalități', pricing: 'Prețuri', store: 'Catalog Produse', contact: 'Contact', demo: 'Demo Instant' },
+    nav: { home: 'Acasă', features: 'Funcționalități', pricing: 'Prețuri', store: 'Catalog Produse', contact: 'Contact', demo: 'Demo Live' },
     home: {
       badge: 'VIITORUL E-COMMERCE-ULUI DE MOBILĂ',
       heroTitle: 'Transformă-ți magazinul într-o ',
@@ -136,7 +136,7 @@ export const TRANSLATIONS = {
         noCode: { title: 'Fără programare', desc: 'Integrare plug-and-play în site-ul tău existent, fără a scrie o singură linie de cod.' },
         autoGlb: { title: 'Conversie magică', desc: 'Sistemul nostru transformă automat fotografiile de catalog în obiecte 3D interactive.' },
         analytics: { title: 'Date inteligente', desc: 'Află exact ce produse probează clienții tăi și ce unghiuri îi conving să cumpere.' },
-        mobile: { title: 'Mobilul pe primul loc', desc: 'Experiență ultra-fluidă pe orice smartphone, direct din browser, fără aplicație.' }
+        mobile: { title: 'Mobile first', desc: 'Experiență ultra-fluidă pe orice smartphone, direct din browser, fără aplicație.' }
       },
       journeyTitle: 'Experiența Clientului Tău',
       pricingTitle: 'Investiție în Conversie',
@@ -155,6 +155,7 @@ export const TRANSLATIONS = {
       search: 'Caută în magazin...',
       filters: 'Filtrează',
       noResults: 'Nu am găsit produse.',
+      autoDetectedDescription: 'Disponibil pentru simularea demo - adauga produsul apasand butonul +.',
       sort: {
         priceAsc: 'Preț: Mic la Mare',
         priceDesc: 'Preț: Mare la Mic',
@@ -164,11 +165,11 @@ export const TRANSLATIONS = {
         dateOld: 'Cele mai vechi'
       }
     },
-    editor: { step1: 'PASUL 1: CAMERA TA', uploadRoom: 'Încarcă poza camerei tale', step2: 'PASUL 2: CATALOGUL TĂU', catalogTitle: 'Catalogul tău', inventory: 'Listă produse', uploadPhoto: 'Încarcă foto', changePhoto: 'Schimbă foto', uploadGlb: 'Încarcă GLB', visualize: 'Vizualizează', studioTitle: '3dFurnit Studio', studioDesc: 'Control manual 3D', loading3d: 'Se încarcă...', rotationActive: 'Rotire activă', addToCart: 'Adaugă în Coș', customProduct: 'Produs Personalizat', dimensions: 'Dimensiuni' },
+    editor: { step1: 'PASUL 1: CAMERA TA', uploadRoom: 'Încarcă poza camerei tale', step2: 'PASUL 2: CATALOGUL TĂU', catalogTitle: 'Catalogul tău', inventory: 'Listă produse', emptyInventory: 'Niciun produs adăugat încă', uploadPhoto: 'Încarcă fundal', changePhoto: 'Schimbă fundal', uploadGlb: 'Încarcă GLB', visualize: 'Vizualizează', studioTitle: 'Numele tău aici', studioDesc: 'Control manual 3D', loading3d: 'Se încarcă...', rotationActive: 'Rotire activă', addToCart: 'Adaugă în Coș', addedToCart: 'Adăugat în Coș', customProduct: 'Produs Personalizat', dimensions: 'Dimensiuni' },
     common: { price: 'Preț', buyNow: 'Cumpără acum', getStarted: 'Începe acum', contactUs: 'Contactează-ne' }
   },
   en: {
-    nav: { home: 'Home', features: 'Features', pricing: 'Pricing', store: 'Product Catalog', contact: 'Contact', demo: 'Instant Demo' },
+    nav: { home: 'Home', features: 'Features', pricing: 'Pricing', store: 'Product Catalog', contact: 'Contact', demo: 'Live Demo' },
     home: {
       badge: 'THE FUTURE OF FURNITURE E-COMMERCE',
       heroTitle: 'Transform your store into an ',
@@ -209,6 +210,7 @@ export const TRANSLATIONS = {
       search: 'Search...',
       filters: 'Filter',
       noResults: 'No results.',
+      autoDetectedDescription: 'Available for the demo simulation - add this product by pressing the + button.',
       sort: {
         priceAsc: 'Price: Low to High',
         priceDesc: 'Price: High to Low',
@@ -218,11 +220,11 @@ export const TRANSLATIONS = {
         dateOld: 'Oldest'
       }
     },
-    editor: { step1: 'STEP 1: ROOM', uploadRoom: 'Upload room photo', step2: 'STEP 2: CATALOG', catalogTitle: 'Catalog', inventory: 'Listă produse', uploadPhoto: 'Upload photo', changePhoto: 'Change photo', uploadGlb: 'Upload GLB', visualize: 'Visualize', studioTitle: '3dFurnit Studio', studioDesc: 'Manual 3D Control', loading3d: 'Loading...', rotationActive: 'Rotation active', addToCart: 'Add to Cart', customProduct: 'Custom Product', dimensions: 'Dimensions' },
+    editor: { step1: 'STEP 1: ROOM', uploadRoom: 'Upload room photo', step2: 'STEP 2: CATALOG', catalogTitle: 'Catalog', inventory: 'Listă produse', emptyInventory: 'No items yet', uploadPhoto: 'Upload background', changePhoto: 'Change background', uploadGlb: 'Upload GLB', visualize: 'Visualize', studioTitle: 'Your Name Here', studioDesc: 'Manual 3D Control', loading3d: 'Loading...', rotationActive: 'Rotation active', addToCart: 'Add to Cart', addedToCart: 'Added to Cart', customProduct: 'Custom Product', dimensions: 'Dimensions' },
     common: { price: 'Price', buyNow: 'Buy now', getStarted: 'Get started', contactUs: 'Contact Us' }
   },
   fr: {
-    nav: { home: 'Accueil', features: 'Fonctionnalités', pricing: 'Prix', store: 'Catalogue Produits', contact: 'Contact', demo: 'Démo Instantanée' },
+    nav: { home: 'Accueil', features: 'Fonctionnalités', pricing: 'Prix', store: 'Catalogue Produits', contact: 'Contact', demo: 'Démo Live' },
     home: {
       badge: "L'AVENIR DU E-COMMERCE DE MEUBLES",
       heroTitle: 'Transformez votre magasin en une ',
@@ -263,6 +265,7 @@ export const TRANSLATIONS = {
       search: 'Chercher...',
       filters: 'Filtres',
       noResults: 'Aucun résultat.',
+      autoDetectedDescription: 'Disponible pour la simulation demo - ajoutez ce produit en appuyant sur +.',
       sort: {
         priceAsc: 'Prix: Croissant',
         priceDesc: 'Prix: Décroissant',
@@ -272,11 +275,11 @@ export const TRANSLATIONS = {
         dateOld: 'Plus anciens'
       }
     },
-    editor: { step1: 'ÉTAPE 1: PIÈCE', uploadRoom: 'Charger photo de pièce', step2: 'ÉTAPE 2: CATALOGUE', catalogTitle: 'Catalogue', inventory: 'Listă produse', uploadPhoto: 'Téléverser photo', changePhoto: 'Changer la photo', uploadGlb: 'Charger GLB', visualize: 'Visualiser', studioTitle: '3dFurnit Studio', studioDesc: 'Contrôle 3D Manuel', loading3d: 'Chargement...', rotationActive: 'Rotation active', addToCart: 'Ajouter au Panier', customProduct: 'Produit Personnalisé', dimensions: 'Dimensions' },
+    editor: { step1: 'ÉTAPE 1: PIÈCE', uploadRoom: 'Charger photo de pièce', step2: 'ÉTAPE 2: CATALOGUE', catalogTitle: 'Catalogue', inventory: 'Listă produse', emptyInventory: 'Aucun article pour l’instant', uploadPhoto: 'Charger fond', changePhoto: 'Changer le fond', uploadGlb: 'Charger GLB', visualize: 'Visualiser', studioTitle: 'Votre Nom Ici', studioDesc: 'Contrôle 3D Manuel', loading3d: 'Chargement...', rotationActive: 'Rotation active', addToCart: 'Ajouter au Panier', addedToCart: 'Ajouté au Panier', customProduct: 'Produit Personnalisé', dimensions: 'Dimensions' },
     common: { price: 'Prix', buyNow: 'Acheter', getStarted: 'Démarrer', contactUs: 'Contactez-nous' }
   },
   de: {
-    nav: { home: 'Startseite', features: 'Funktionen', pricing: 'Preise', store: 'Produktkatalog', contact: 'Kontakt', demo: 'Sofort-Demo' },
+    nav: { home: 'Startseite', features: 'Funktionen', pricing: 'Preise', store: 'Produktkatalog', contact: 'Kontakt', demo: 'Live-Demo' },
     home: {
       badge: 'DIE ZUKUNFT DES MÖBEL-E-COMMERCE',
       heroTitle: 'Verwandeln Sie Ihren Shop in ein ',
@@ -317,6 +320,7 @@ export const TRANSLATIONS = {
       search: 'Suche...',
       filters: 'Filter',
       noResults: 'Keine Ergebnisse.',
+      autoDetectedDescription: 'Verfugbar fur die Demo-Simulation - fugen Sie dieses Produkt uber die Taste + hinzu.',
       sort: {
         priceAsc: 'Preis: Aufsteigend',
         priceDesc: 'Preis: Absteigend',
@@ -326,11 +330,11 @@ export const TRANSLATIONS = {
         dateOld: 'Älteste'
       }
     },
-    editor: { step1: 'SCHRITT 1: RAUM', uploadRoom: 'Raumfoto hochladen', step2: 'SCHRITT 2: KATALOG', catalogTitle: 'Katalog', inventory: 'Listă produse', uploadPhoto: 'Foto hochladen', changePhoto: 'Foto ändern', uploadGlb: 'GLB hochladen', visualize: 'Visualisieren', studioTitle: '3dFurnit Studio', studioDesc: 'Manuelle 3D-Steuerung', loading3d: 'Laden...', rotationActive: 'Drehung aktiv', addToCart: 'In den Warenkorb', customProduct: 'Individuelles Produkt', dimensions: 'Maße' },
+    editor: { step1: 'SCHRITT 1: RAUM', uploadRoom: 'Raumfoto hochladen', step2: 'SCHRITT 2: KATALOG', catalogTitle: 'Katalog', inventory: 'Listă produse', emptyInventory: 'Noch keine Artikel', uploadPhoto: 'Hintergrund hochladen', changePhoto: 'Hintergrund ändern', uploadGlb: 'GLB hochladen', visualize: 'Visualisieren', studioTitle: 'Dein Name', studioDesc: 'Manuelle 3D-Steuerung', loading3d: 'Laden...', rotationActive: 'Drehung aktiv', addToCart: 'In den Warenkorb', addedToCart: 'Zum Warenkorb hinzugefügt', customProduct: 'Individuelles Produkt', dimensions: 'Maße' },
     common: { price: 'Preis', buyNow: 'Jetzt kaufen', getStarted: 'Jetzt starten', contactUs: 'Kontaktieren Sie uns' }
   },
   es: {
-    nav: { home: 'Inicio', features: 'Funcionalidades', pricing: 'Precios', store: 'Catálogo de productos', contact: 'Contacto', demo: 'Demo Instantánea' },
+    nav: { home: 'Inicio', features: 'Funcionalidades', pricing: 'Precios', store: 'Catálogo de productos', contact: 'Contacto', demo: 'Demo en vivo' },
     home: {
       badge: 'EL FUTURO DEL E-COMMERCE DE MUEBLES',
       heroTitle: 'Transforma tu tienda en una ',
@@ -371,6 +375,7 @@ export const TRANSLATIONS = {
       search: 'Buscar...',
       filters: 'Filtros',
       noResults: 'Sin resultados.',
+      autoDetectedDescription: 'Disponible para la simulacion demo - anade este producto pulsando +.',
       sort: {
         priceAsc: 'Precio: Menor a Mayor',
         priceDesc: 'Precio: Mayor a Menor',
@@ -380,7 +385,7 @@ export const TRANSLATIONS = {
         dateOld: 'Más antiguos'
       }
     },
-    editor: { step1: 'PASO 1: HABITACIÓN', uploadRoom: 'Subir foto de habitación', step2: 'PASO 2: CATÁLOGO', catalogTitle: 'Catálogo', inventory: 'Listă produse', uploadPhoto: 'Subir foto', changePhoto: 'Cambiar foto', uploadGlb: 'Subir GLB', visualize: 'Visualizar', studioTitle: '3dFurnit Studio', studioDesc: 'Control 3D Manual', loading3d: 'Cargando...', rotationActive: 'Rotación activa', addToCart: 'Añadir al Carrito', customProduct: 'Producto Personalizado', dimensions: 'Dimensiones' },
+    editor: { step1: 'PASO 1: HABITACIÓN', uploadRoom: 'Subir foto de habitación', step2: 'PASO 2: CATÁLOGO', catalogTitle: 'Catálogo', inventory: 'Listă produse', emptyInventory: 'Sin artículos aún', uploadPhoto: 'Subir fondo', changePhoto: 'Cambiar fondo', uploadGlb: 'Subir GLB', visualize: 'Visualizar', studioTitle: 'Tu Nombre', studioDesc: 'Control 3D Manual', loading3d: 'Cargando...', rotationActive: 'Rotación activa', addToCart: 'Añadir al Carrito', addedToCart: 'Añadido al Carrito', customProduct: 'Producto Personalizado', dimensions: 'Dimensiones' },
     common: { price: 'Precio', buyNow: 'Comprar ahora', getStarted: 'Empezar ahora', contactUs: 'Contáctanos' }
   }
 };

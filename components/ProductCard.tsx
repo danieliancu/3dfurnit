@@ -15,11 +15,15 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, onSelect, lang, onExpand }) => {
   const t = TRANSLATIONS[lang];
+  const isAutoDetected =
+    product.description === 'Item automatically detected from library.' ||
+    product.description?.startsWith('Available for the demo simulation');
+  const descriptionText = isAutoDetected ? t.catalog.autoDetectedDescription : product.description;
 
   return (
     <div className="group bg-white rounded-[2.5rem] overflow-hidden shadow-sm hover:shadow-2xl transition-all duration-500 border border-gray-50 flex flex-col p-4">
-      <div className="relative aspect-square overflow-hidden bg-gray-50/50 rounded-[2rem] flex items-center justify-center p-8">
-        <div className="absolute inset-0 opacity-[0.05] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#6366f1 1.5px, transparent 1.5px)', backgroundSize: '16px 16px' }}></div>
+      <div className="relative aspect-square overflow-hidden bg-gray-100 rounded-[2rem] flex items-center justify-center p-8">
+        <div className="absolute inset-0 opacity-[0.05] pointer-events-none" style={{ backgroundImage: '', backgroundSize: '16px 16px' }}></div>
 
         <img
           src={product.image}
@@ -50,7 +54,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onSelect, lang, onEx
       <div className="p-6 flex-1 flex flex-col">
         <h3 className="text-xl font-black text-gray-900 mb-2 leading-tight tracking-tight uppercase">{product.name}</h3>
         <p className="text-sm text-gray-400 font-medium line-clamp-2 mb-6">
-          {product.description}
+          {descriptionText}
         </p>
 
         <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-50">

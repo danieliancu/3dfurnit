@@ -45,7 +45,7 @@ const getProducts = () => {
                         },
                         image: imagePath,
                         glbModel: `/models/${category}/${file}`,
-                        description: 'Available for the demo simulation - add this product by pressing the + button. / Disponibil pentru simularea demo - adauga produsul apasand butonul +. / Disponible para la simulacion demo - anade este producto pulsando +. / Disponible pour la simulation demo - ajoutez ce produit en appuyant sur +. / Verfugbar fur die Demo-Simulation - fugen Sie dieses Produkt uber die Taste + hinzu.',
+                        description: 'Item automatically detected from library.',
                         dateAdded: new Date(Date.now() - Math.floor(Math.random() * 10000000000)).toISOString()
                     });
                 }

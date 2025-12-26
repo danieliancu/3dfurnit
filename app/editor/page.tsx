@@ -81,9 +81,9 @@ function EditorContent() {
     };
 
     return (
-        <div className="min-h-screen bg-white text-gray-900 selection:bg-indigo-100">
+        <div className="min-h-screen bg-white text-gray-900 selection:bg-indigo-100" style={{ background:"lightblue" }}>
             <Header />
-            <main>
+            <main className="lg:h-[calc(100vh-120px)] lg:max-h-[calc(100vh-120px)] lg:overflow-hidden">
                 <RoomEditor
                     initialProduct={initialProduct}
                     onProductConsumed={handleProductConsumed}

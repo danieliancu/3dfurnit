@@ -62,9 +62,12 @@ const RoomEditor: React.FC<RoomEditorProps> = ({
   availableProducts = []
 }) => {
   const t = TRANSLATIONS[lang].editor;
+  const common = TRANSLATIONS[lang].common;
 
   const [dragMode, setDragMode] = React.useState<'none' | 'move' | 'scale'>('none');
   const [searchTerm, setSearchTerm] = React.useState('');
+  const [isMobilePanelOpen, setIsMobilePanelOpen] = React.useState(false);
+  const [cartModalProduct, setCartModalProduct] = React.useState<Product | null>(null);
   const dragStart = useRef<DragStart | null>(null);
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -286,156 +289,163 @@ const RoomEditor: React.FC<RoomEditorProps> = ({
   const isEmptyState = !state.roomImage && state.placedProducts.length === 0;
   const uploadLabel = hasSceneImage ? t.changePhoto : t.uploadPhoto;
 
-  return (
-    <div className="mx-auto p-4 md:p-8 animate-in fade-in duration-500">
-      <input type="file" ref={fileInputRef} onChange={handleFileUpload} accept="image/*" className="hidden" />
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+  const SidePanel = (
+    <div className="space-y-6 lg:h-[80vh] lg:min-h-[80vh] lg:max-h-[80vh] lg:pr-1 lg:flex lg:flex-col lg:overflow-hidden">
 
-        {/* Panou Control Lateral */}
-        <div className="lg:col-span-4 space-y-6">
-          {/* Inventar Scenă */}
-          {state.placedProducts.length > 0 && (
-            <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 animate-in slide-in-from-left duration-500">
-              <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xs font-black text-indigo-600 flex items-center gap-2 uppercase tracking-[0.2em]">
-                  <Layers size={14} /> {t.inventory}
-                </h2>
-                <div className="bg-indigo-50 text-indigo-600 px-3 py-1 rounded-lg text-[10px] font-black uppercase">
-                  Total: {totalPrice} lei
-                </div>
+      {/* Catalog Produse */}
+      <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 flex flex-col lg:flex-[3] lg:min-h-0 overflow-hidden">
+        <h2 className="text-xs font-black text-indigo-600 mb-4 flex items-center gap-2 uppercase tracking-[0.2em]">
+          {t.catalogTitle}
+        </h2>
+
+        <div className="relative mb-4">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
+          <input
+            type="text"
+            placeholder="Caută produse..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-100 rounded-2xl text-xs font-bold focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
+          />
+        </div>
+
+        <div className="flex flex-nowrap gap-4 overflow-x-auto pr-2 custom-scrollbar flex-1 content-start p-2 snap-x snap-mandatory lg:grid lg:grid-cols-2 lg:gap-x-4 lg:gap-y-8 lg:overflow-y-auto lg:overflow-x-hidden lg:max-h-full">
+          {filteredCatalog.map(product => (
+            <div
+              key={product.id}
+              onClick={() => addProductToRoom(product)}
+              className="relative cursor-pointer rounded-2xl overflow-hidden border-2 transition-all p-2 bg-white flex flex-col items-center justify-between h-40 group border-gray-50 hover:border-indigo-200 hover:shadow-lg active:scale-95 flex-shrink-0 w-[180px] sm:w-[200px] lg:w-auto lg:flex-shrink"
+            >
+              <div className="flex-1 w-full flex items-center justify-center overflow-hidden pointer-events-none bg-gray-100">
+                {product.image ? (
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="max-w-[85%] max-h-[85%] object-contain group-hover:scale-110 transition-transform"
+                    style={{ mixBlendMode: "multiply" }}
+                  />
+                ) : (
+                  <Box size={32} className="text-gray-200" />
+                )}
               </div>
-
-              <div className="space-y-3 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
-                {groupedProducts.map((group) => (
-                  <div
-                    key={group.product.id}
-                    className={`flex items-center gap-4 p-3 rounded-2xl border transition-all cursor-pointer ${state.activeInstanceId && group.instances.includes(state.activeInstanceId)
-                      ? 'border-indigo-600 bg-indigo-50/50 shadow-sm'
-                      : 'border-gray-50 bg-gray-50/30 hover:bg-gray-50'
-                      }`}
-                    onClick={() => setState(prev => ({ ...prev, activeInstanceId: group.instances[group.instances.length - 1] }))}
-                  >
-                    <div className="w-12 h-12 rounded-xl bg-white border border-gray-100 flex items-center justify-center p-1 overflow-hidden shrink-0">
-                      {group.product.image ? (
-                        <img src={group.product.image} className="w-full h-full object-contain" alt={group.product.name} />
-                      ) : (
-                        <Box size={20} className="text-gray-200" />
-                      )}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <div className="flex flex-wrap items-center gap-2">
-                        <p className="text-[10px] font-black text-gray-900 break-words uppercase flex-1">{group.product.name}</p>
-                        {group.count > 1 && (
-                          <span className="bg-indigo-600 text-white text-[9px] font-black px-1.5 py-0.5 rounded-md shrink-0">
-                            x{group.count}
-                          </span>
-                        )}
-                      </div>
-                      <p className="text-[10px] font-bold text-indigo-600 mt-0.5">{group.product.price * group.count} lei</p>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleRemoveInstance(group.instances[group.instances.length - 1]);
-                        }}
-                        className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
-                      >
-                        <Minus size={14} />
-                      </button>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          addProductToRoom(group.product);
-                        }}
-                        className="p-2 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
-                      >
-                        <Plus size={14} />
-                      </button>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          // Placeholder for Add to Cart logic
-                          alert(`Adăugat ${group.product.name} în coș!`);
-                        }}
-                        className="p-2 text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-lg transition-colors"
-                        title={t.addToCart}
-                      >
-                        <ShoppingCart size={14} />
-                      </button>
-                    </div>
-                  </div>
-                ))}
+              <div className="w-full text-center mt-2 flex items-center justify-between px-1">
+                <p className="text-[9px] font-black text-gray-900 leading-tight break-words uppercase flex-1 line-clamp-2 md:line-clamp-1">{product.name}</p>
+                <Plus size={10} className="text-indigo-600 shrink-0 ml-1" />
               </div>
             </div>
+          ))}
 
+          {filteredCatalog.length === 0 && (
+            <div className="col-span-2 text-center py-10 text-gray-400 text-xs font-medium">
+              Nu am găsit produse.
+            </div>
           )}
+        </div>
+      </div>
 
 
-
-          {/* Catalog Produse */}
-          <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 flex flex-col h-[500px]">
-            <h2 className="text-xs font-black text-indigo-600 mb-4 flex items-center gap-2 uppercase tracking-[0.2em]">
-              {t.catalogTitle}
-            </h2>
-
-            <div className="relative mb-4">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
-              <input
-                type="text"
-                placeholder="Caută produse..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 bg-gray-50 border border-gray-100 rounded-2xl text-xs font-bold focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all"
-              />
-            </div>
-
-            <div className="grid grid-cols-2 gap-x-4 gap-y-8 overflow-y-auto pr-2 custom-scrollbar flex-1 content-start p-2">
-              {filteredCatalog.map(product => (
-                <div
-                  key={product.id}
-                  onClick={() => addProductToRoom(product)}
-                  className="relative cursor-pointer rounded-2xl overflow-hidden border-2 transition-all p-2 bg-white flex flex-col items-center justify-between h-40 group border-gray-50 hover:border-indigo-200 hover:shadow-lg active:scale-95"
-                >
-                  <div className="flex-1 w-full flex items-center justify-center overflow-hidden pointer-events-none bg-gray-100">
-                    {product.image ? (
-                      <img
-                        src={product.image}
-                        alt={product.name}
-                        className="max-w-[85%] max-h-[85%] object-contain group-hover:scale-110 transition-transform"
-                        style ={{ mixBlendMode: "multiply" }}
-                      />
-                    ) : (
-                      <Box size={32} className="text-gray-200" />
-                    )}
-                  </div>
-                  <div className="w-full text-center mt-2 flex items-center justify-between px-1">
-                    <p className="text-[9px] font-black text-gray-900 leading-tight break-words uppercase flex-1 line-clamp-2 md:line-clamp-1">{product.name}</p>
-                    <Plus size={10} className="text-indigo-600 shrink-0 ml-1" />
-                  </div>
-                </div>
-              ))}
-
-              {filteredCatalog.length === 0 && (
-                <div className="col-span-2 text-center py-10 text-gray-400 text-xs font-medium">
-                  Nu am găsit produse.
-                </div>
-              )}
-            </div>
+      {/* Inventar Scenă */}
+      <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 animate-in slide-in-from-left duration-500 lg:flex lg:flex-[2] lg:flex-col lg:min-h-0 lg:overflow-hidden">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-xs font-black text-indigo-600 flex items-center gap-2 uppercase tracking-[0.2em]">
+            <Layers size={14} /> {t.inventory}
+          </h2>
+          <div className="bg-indigo-50 text-indigo-600 px-3 py-1 rounded-lg text-[10px] font-black uppercase">
+            Total: {totalPrice} lei
           </div>
         </div>
 
+        <div className="space-y-3 flex-1 overflow-y-auto pr-2 custom-scrollbar">
+          {groupedProducts.map((group) => (
+            <div
+              key={group.product.id}
+              className={`flex items-center gap-4 p-3 rounded-2xl border transition-all cursor-pointer ${state.activeInstanceId && group.instances.includes(state.activeInstanceId)
+                ? 'border-indigo-600 bg-indigo-50/50 shadow-sm'
+                : 'border-gray-50 bg-gray-50/30 hover:bg-gray-50'
+                }`}
+              onClick={() => setState(prev => ({ ...prev, activeInstanceId: group.instances[group.instances.length - 1] }))}
+            >
+              <div className="w-12 h-12 rounded-xl bg-white border border-gray-100 flex items-center justify-center p-1 overflow-hidden shrink-0">
+                {group.product.image ? (
+                  <img src={group.product.image} className="w-full h-full object-contain" alt={group.product.name} />
+                ) : (
+                  <Box size={20} className="text-gray-200" />
+                )}
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex flex-wrap items-center gap-2">
+                  <p className="text-[10px] font-black text-gray-900 break-words uppercase flex-1">{group.product.name}</p>
+                  {group.count > 1 && (
+                    <span className="bg-indigo-600 text-white text-[9px] font-black px-1.5 py-0.5 rounded-md shrink-0">
+                      x{group.count}
+                    </span>
+                  )}
+                </div>
+                <p className="text-[10px] font-bold text-indigo-600 mt-0.5">{group.product.price * group.count} lei</p>
+              </div>
+              <div className="flex items-center gap-1">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleRemoveInstance(group.instances[group.instances.length - 1]);
+                  }}
+                  className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                >
+                  <Minus size={14} />
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    addProductToRoom(group.product);
+                  }}
+                  className="p-2 text-gray-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
+                >
+                  <Plus size={14} />
+                </button>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setCartModalProduct(group.product);
+                  }}
+                  className="p-2 text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-lg transition-colors"
+                  title={t.addToCart}
+                >
+                  <ShoppingCart size={14} />
+                </button>
+              </div>
+            </div>
+          ))}
+
+          {groupedProducts.length === 0 && (
+            <div className="rounded-2xl border border-dashed border-gray-200 bg-gray-50/60 text-center py-6 px-4">
+              <p className="text-[11px] font-black text-gray-500 uppercase tracking-[0.15em]">{t.emptyInventory}</p>
+            </div>
+          )}
+        </div>
+      </div>
+
+
+
+
+    </div>
+  );
+
+  return (
+    <div className="mx-auto p-4 md:p-8 animate-in fade-in duration-500 flex flex-col min-h-screen w-full max-w-[1600px] lg:overflow-visible">
+      <input type="file" ref={fileInputRef} onChange={handleFileUpload} accept="image/*" className="hidden" />
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 w-full items-start">
+
         {/* Zona de Afișare Centrală */}
-        <div className="lg:col-span-8 flex flex-col h-auto">
-          <div className="bg-white flex flex-col">
-            <div className="px-8 pt-8 border-b border-gray-50 bg-white/90 backdrop-blur-lg flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="lg:col-span-8 flex flex-col lg:h-[80vh] lg:min-h-[80vh] lg:max-h-[80vh]">
+          <div className="flex flex-col lg:flex-1 lg:min-h-0">
+            <div className="pb-8 backdrop-blur-lg flex flex-col md:flex-row md:items-center justify-between gap-4">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center">
-                  <Armchair className="text-indigo-600" size={24} />
+                  logo
                 </div>
                 <div>
-                  <h3 className="font-black text-gray-900 uppercase tracking-tighter text-sm">{t.studioTitle}</h3>
-                  <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Multi-Object Real-Time Editor</p>
+                  <h3 className="font-black text-white uppercase tracking-tighter text-sm">{t.studioTitle}</h3>
+                  <p className="text-[10px] text-white font-bold uppercase tracking-widest">Multi-Object Real-Time Editor</p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
@@ -462,16 +472,16 @@ const RoomEditor: React.FC<RoomEditorProps> = ({
 
             <div
               ref={containerRef}
-              className={`relative flex ${hasSceneImage ? 'items-start' : 'items-center'} justify-center overflow-hidden min-h-[380px] md:min-h-[520px]`}
+              className={`relative flex ${hasSceneImage ? 'items-start' : 'items-center'} justify-center overflow-hidden h-[70vh] md:h-[75vh] lg:h-full`}
               onClick={() => setState(prev => ({ ...prev, activeInstanceId: null }))}
             >
-              <div className={`relative w-full flex ${hasSceneImage ? 'items-start' : 'items-center'} justify-center pt-6 md:p-8`}>
+              <div className={`relative w-full flex ${hasSceneImage ? 'items-start' : 'items-center'} justify-center p-6 md:p-8 bg-gray-100 rounded-3xl h-full`}>
                 {!state.roomImage ? (
-                  <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: 'radial-gradient(#6366f1 1.5px, transparent 1.5px)', backgroundSize: '32px 32px' }}></div>
+                  <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: '', backgroundSize: '32px 32px' }}></div>
                 ) : (
                   <img
                     src={state.roomImage}
-                    className="max-w-full max-h-full object-contain pointer-events-none select-none"
+                    className="max-w-full max-h-full h-full object-contain pointer-events-none select-none"
                     alt="Background"
                   />
                 )}
@@ -600,11 +610,90 @@ const RoomEditor: React.FC<RoomEditorProps> = ({
                 })}
               </div>
             </div>
+          </div>
+        </div>
 
+        {/* Panou Control Lateral - Desktop */}
+        <div className="hidden lg:flex lg:flex-col lg:col-span-4">
+          {SidePanel}
+        </div>
+      </div>
 
+      {/* Panou Control - Mobile Bottom Sheet */}
+      <div className="lg:hidden">
+        <button
+          onClick={() => setIsMobilePanelOpen(prev => !prev)}
+          className="fixed bottom-4 right-4 z-50 bg-indigo-600 text-white p-4 rounded-full shadow-2xl active:scale-95 transition-all"
+          aria-label="Toggle catalog panel"
+        >
+          <Layers size={20} />
+        </button>
+        <div
+          className={`fixed bottom-0 left-0 right-0 z-40 transition-transform duration-300 ${isMobilePanelOpen ? 'translate-y-0' : 'translate-y-full'}`}
+          style= {{ zIndex:"99" }}
+        >
+          <div className="bg-white border-t border-gray-200 rounded-t-3xl shadow-2xl max-h-[calc(100vh-40px)] overflow-y-auto p-4">
+            <div className="flex items-center justify-between mb-2">
+              <h2 className="text-xs font-black text-gray-900 uppercase tracking-[0.2em]">{t.catalogTitle}</h2>
+              <button
+                onClick={() => setIsMobilePanelOpen(false)}
+                className="p-2 text-gray-500"
+                aria-label="Close panel"
+              >
+                <X size={18} />
+              </button>
+            </div>
+            {SidePanel}
           </div>
         </div>
       </div>
+
+      {cartModalProduct && (
+        <div
+          className="fixed inset-0 z-[120] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm"
+          onClick={() => setCartModalProduct(null)}
+        >
+          <div
+            className="relative bg-white rounded-3xl shadow-2xl border border-gray-100 max-w-sm w-full p-6 overflow-hidden animate-in fade-in zoom-in"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: '', backgroundSize: '18px 18px' }}></div>
+            <button
+              onClick={() => setCartModalProduct(null)}
+              className="absolute top-3 right-3 p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors"
+              aria-label="Close modal"
+            >
+              <X size={16} />
+            </button>
+            <div className="flex items-center gap-3 relative z-10">
+              <div className="w-12 h-12 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center shadow-inner">
+                <ShoppingCart size={20} />
+              </div>
+              <div className="flex-1">
+                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-600 mb-1">{t.addedToCart}</p>
+                <p className="text-sm font-bold text-gray-900 leading-tight">{cartModalProduct.name}</p>
+              </div>
+            </div>
+            {cartModalProduct.image && (
+              <div className="mt-4 w-full h-36 bg-gray-50 rounded-2xl border border-gray-100 flex items-center justify-center overflow-hidden">
+                <img src={cartModalProduct.image} alt={cartModalProduct.name} className="max-w-[80%] max-h-[80%] object-contain" style={{ mixBlendMode: 'multiply' }} />
+              </div>
+            )}
+            <div className="mt-6 flex items-center justify-between relative z-10">
+              <div>
+                <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">{common.price}</p>
+                <p className="text-lg font-black text-indigo-600">{cartModalProduct.price} lei</p>
+              </div>
+              <button
+                onClick={() => setCartModalProduct(null)}
+                className="bg-indigo-600 text-white px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest hover:bg-indigo-700 active:scale-95 transition-all shadow-lg shadow-indigo-100"
+              >
+                OK
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div >
   );
 };
